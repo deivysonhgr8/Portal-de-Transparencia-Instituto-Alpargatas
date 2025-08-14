@@ -23,4 +23,4 @@ def getdtb(file:str):
     return data
 
 getdtb(r'RELATORIO_DTB_BRASIL_2024_MUNICIPIOS.xls')
-#teste
+
