@@ -13,4 +13,4 @@ pip install -r requirements.txt
 ## Equipe de desenvolvimento:
 - Deivyson Henrique Gomes Ribeiro
 - Matheus Blechior
-- ítalo santos
+- ítalo 
