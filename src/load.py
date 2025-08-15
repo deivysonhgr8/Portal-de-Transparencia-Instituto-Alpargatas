@@ -11,14 +11,13 @@ if 'ds_mun' not in data_final.columns:
     elif 'ds_mun_dtb' in data_final.columns:
         data_final = data_final.rename(columns={'ds_mun_dtb': 'ds_mun'})
 
-
 ideb_cols = [col for col in data_final.columns if col.startswith('ideb_')]
 anos_ideb = list(range(2005, 2025, 2))
 
 pdf_path = "relatorio_ideb.pdf"
 pdf = PdfPages(pdf_path)
 
-#gráficos por município 
+# === Gráficos por município ===
 ideb_media_mun = data_final.groupby('ds_mun')[ideb_cols].mean().reset_index()
 ideb_long_mun = ideb_media_mun.melt(
     id_vars='ds_mun',
@@ -36,12 +35,17 @@ for municipio, dados in ideb_long_mun.groupby('ds_mun'):
     plt.ylabel('IDEB Médio')
     plt.xlabel('Ano')
     plt.xticks(anos_ideb)
+    
+    # Sombreia a área a partir de 2020
+    plt.axvspan(2020, anos_ideb[-1], color='yellow', alpha=0.2, label='Após atuação Instituto')
+    
     plt.grid(True, linestyle='--', alpha=0.6)
+    plt.legend()
     plt.tight_layout()
     pdf.savefig()
     plt.close()
 
-#gráfico por UF
+# === Gráfico por UF ===
 ideb_media_uf = data_final.groupby('ds_uf')[ideb_cols].mean().reset_index()
 ideb_long_uf = ideb_media_uf.melt(
     id_vars='ds_uf',
@@ -59,10 +63,15 @@ plt.title('Evolução do IDEB Médio por UF (anos iniciais)', fontsize=14)
 plt.ylabel('IDEB Médio')
 plt.xlabel('Ano')
 plt.xticks(anos_ideb)
+
+# Sombreia a área a partir de 2020
+plt.axvspan(2020, anos_ideb[-1], color='yellow', alpha=0.2, label='Após atuação Instituto')
+
 plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
 plt.tight_layout()
 pdf.savefig()
 plt.close()
 
 pdf.close()
-print(f"Relatório completo salvo em: {pdf_path}")
+print(f" Relatório completo salvo em: {pdf_path}")
