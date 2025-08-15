@@ -4,6 +4,8 @@ Insituição participante: `Instituto Alpargatas`
 ## Dependências
 - `pandas`
 - `numpy`
+- `matplotlib.pyplot`
+- `seaborn`
 
 No terminal, rode o código a seguir para instalar as depências do projeto
 ```bash
