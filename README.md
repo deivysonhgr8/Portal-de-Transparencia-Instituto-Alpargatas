@@ -12,6 +12,7 @@ As bibliotecas necessárias para a execução deste projeto estão listadas abai
 - `numpy` : Suporte para operações numéricas.
 - `matplotlib.pyplot`: Geração de gráficos e visualizações.
 - `seaborn`: Criação de visualizações estatísticas.
+- `plotly`: Criação de gráficos interativos
 
 No terminal, rode o código a seguir para instalar as depências do projeto:
 ```bash
