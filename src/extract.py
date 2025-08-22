@@ -1,7 +1,8 @@
 import pandas as pd
 from os import path
+from pathlib import Path
 
-data_dir = r'C:\Users\Deivyson Henrique\Desktop\projeto alpargatas\ia_cdn_main\data'
+data_dir = Path(__file__).parent.parent / 'data'
 
 def ler_dtb(ano):
     """Lê e formata dados DTB para um determinado ano."""

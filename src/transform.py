@@ -2,14 +2,16 @@ from os import path
 from extract import ler_dtb
 from pandas import read_excel, concat
 import pandas as pd
+from pathlib import Path
 
 #configurando diretório de dados 
 # obs: substituir pelo seu diretorio de dados
-data_dir = r'C:\Users\Deivyson Henrique\Desktop\projeto alpargatas\ia_cdn_main\data'
+data_dir = Path(__file__).parent.parent / 'data'
+
 
 #Leitura dados IA 2020-2024 
 # obs: colocar o caminho do arquivo do seu computador
-file_path = r'C:\Users\Deivyson Henrique\Desktop\projeto alpargatas\ia_cdn_main\data\Projetos_de_Atuac807a771o_-_IA_-_2020_a_2025.xlsx'
+file_path = data_dir / 'Projetos_de_Atuac807a771o_-_IA_-_2020_a_2025.xlsx'
 anos_atuacao = ['2020', '2021', '2022', '2023', '2024']
 lista_dataframes = []
 
@@ -100,9 +102,11 @@ print(x.head())
 #IDEB
 lista_ideb = [f'VL_OBSERVADO_{x}' for x in range(2005,2025, 2)]
 nome_ideb = [f'ideb_{x}' for x in range(2005,2025, 2)]
-ideb = read_excel(path.join(data_dir,r'divulgacao_anos_iniciais_municipios_2023.xlsx'),
+caminho_ideb = data_dir / 'divulgacao_anos_iniciais_municipios_2023.xlsx'
+
+ideb = read_excel(caminho_ideb,
                   skiprows=9, usecols=['CO_MUNICIPIO', 'REDE'] + lista_ideb,
-                            na_values=['-', '--'])
+                  na_values=['-', '--'])
 ideb.columns= ['id_mundv','rede'] + nome_ideb
 print(ideb.head())
 print(ideb.info())
