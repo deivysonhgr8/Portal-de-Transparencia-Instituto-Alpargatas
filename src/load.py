@@ -4,7 +4,6 @@ import pandas as pd
 from transform import data_final
 from matplotlib.backends.backend_pdf import PdfPages
 
-# Prioriza Instituto Alpargatas
 if 'ds_mun' not in data_final.columns:
     if 'ds_mun_ia' in data_final.columns:
         data_final = data_final.rename(columns={'ds_mun_ia': 'ds_mun'})
@@ -17,7 +16,7 @@ anos_ideb = list(range(2005, 2025, 2))
 pdf_path = "relatorio_ideb.pdf"
 pdf = PdfPages(pdf_path)
 
-# === Gráficos por município ===
+
 ideb_media_mun = data_final.groupby('ds_mun')[ideb_cols].mean().reset_index()
 ideb_long_mun = ideb_media_mun.melt(
     id_vars='ds_mun',
@@ -36,7 +35,6 @@ for municipio, dados in ideb_long_mun.groupby('ds_mun'):
     plt.xlabel('Ano')
     plt.xticks(anos_ideb)
     
-    # Sombreia a área a partir de 2020
     plt.axvspan(2020, anos_ideb[-1], color='yellow', alpha=0.2, label='Após atuação Instituto')
     
     plt.grid(True, linestyle='--', alpha=0.6)
@@ -45,7 +43,7 @@ for municipio, dados in ideb_long_mun.groupby('ds_mun'):
     pdf.savefig()
     plt.close()
 
-# === Gráfico por UF ===
+
 ideb_media_uf = data_final.groupby('ds_uf')[ideb_cols].mean().reset_index()
 ideb_long_uf = ideb_media_uf.melt(
     id_vars='ds_uf',

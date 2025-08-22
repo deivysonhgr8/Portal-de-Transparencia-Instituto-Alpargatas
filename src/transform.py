@@ -56,7 +56,7 @@ for ano in anos_atuacao:
     df_sel.columns = ['ds_mun', 'sg_uf', 'nprojetos', 'ninstituicoes', 'nbeneficiados']
     df_sel["ano_atuacao"] = int(ano)
 
-    # Remove linhas inválidas
+
     df_sel = df_sel.dropna(subset=["ds_mun", "sg_uf"], how="any")
     df_sel = df_sel[~df_sel["ds_mun"].astype(str).str.contains("VARIAÇÃO|Obs|TOTAL", case=False, na=False)]
 
