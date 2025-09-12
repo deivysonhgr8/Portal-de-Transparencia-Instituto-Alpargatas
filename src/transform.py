@@ -4,8 +4,7 @@ from pandas import read_excel, concat
 import pandas as pd
 from pathlib import Path
 
-#configurando diretório de dados 
-# obs: substituir pelo seu diretorio de dados
+
 data_dir = Path(__file__).parent.parent / 'data'
 
 
@@ -113,3 +112,5 @@ print(ideb.info())
 
 data_final = data_m.merge(ideb, how='left')
 print('\n DATA FINAL', data_final)
+
+#Tratamento outliers
