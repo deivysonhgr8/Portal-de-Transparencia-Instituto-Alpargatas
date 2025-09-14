@@ -70,7 +70,7 @@
     <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <img src="IA.png" alt="Instituto Alpargatas logo featuring stylized initials IA in blue and orange with a modern and optimistic design representing social impact in education; logo appears on a clean white background" class="h-10 w-10">
+                <img src="IA.png" alt="Logo IA" class="h-10 w-10">
                 <span class="text-xl font-bold text-gray-700">Instituto Alpargatas</span>
             </div>
             <nav class="hidden md:flex space-x-6">
@@ -203,8 +203,9 @@
                 'Serra Redonda': [2.1, 3.4, 3.5, 3.0, 4.0, 4.4, 3.6, 4.1, 4.4, 4.5],
                  'Paraíba': [2.7, 3.1, 3.6, 3.8, 4.0, 4.4, 4.6, 4.8, 4.9, 5.2] // Média do estado para comparação
             };
-
-            const plotlyConfig = { responsive: true, displaylogo: false };
+            
+            // Configuração para tornar os gráficos estáticos (sem zoom, pan, etc)
+            const plotlyConfig = { responsive: true, displaylogo: false, displayModeBar: false };
             const ANOS_IDEB = idebData.Ano;
 
             // --- NAVEGAÇÃO ATIVA ---
@@ -239,8 +240,8 @@
                 }));
 
                 const layout = {
-                    xaxis: { title: 'Ano', gridcolor: '#e5e7eb' },
-                    yaxis: { title: 'IDEB Médio', gridcolor: '#e5e7eb' },
+                    xaxis: { title: 'Ano', gridcolor: '#e5e7eb', fixedrange: true }, // Desabilita zoom no eixo X
+                    yaxis: { title: 'IDEB Médio', gridcolor: '#e5e7eb', fixedrange: true }, // Desabilita zoom no eixo Y
                     hovermode: 'x unified',
                     legend: { title: { text: 'Municípios' } },
                     paper_bgcolor: 'transparent',
