@@ -13,6 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <!-- Incluindo Leaflet.js para o mapa (CSS e JS) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         :root {
             --cor-primaria: #002D5B; /* Azul Alpargatas */
@@ -56,6 +59,24 @@
             transform: scale(1.05);
             background-color: #e05a1a;
         }
+        /* Estilos para a legenda do mapa Leaflet */
+        .leaflet-control-container .legend {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            line-height: 18px;
+            color: #555;
+        }
+        .leaflet-control-container .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.9;
+        }
         /* Animação */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -73,6 +94,7 @@
                 <img src="IA.png" alt="Logo IA" class="h-10 w-10">
                 <span class="text-xl font-bold text-gray-700">Instituto Alpargatas</span>
             </div>
+            <!-- Navegação para Desktop -->
             <nav class="hidden md:flex space-x-6">
                 <a href="#quem-somos" class="nav-link text-gray-600 font-medium">Quem Somos</a>
                 <a href="#o-que-fazemos" class="nav-link text-gray-600 font-medium">O Que Fazemos</a>
@@ -80,8 +102,31 @@
                 <a href="#destaques" class="nav-link text-gray-600 font-medium">Destaques</a>
                 <a href="#inteligencia" class="nav-link text-gray-600 font-medium">Inteligência Municipal</a>
             </nav>
+            <!-- Botão do Menu Mobile -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                    <span class="material-symbols-outlined text-3xl">menu</span>
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- Menu Mobile (Overlay) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-white z-50 p-6">
+        <div class="flex justify-end">
+            <button id="mobile-menu-close-button" class="focus:outline-none">
+                <span class="material-symbols-outlined text-4xl">close</span>
+            </button>
+        </div>
+        <nav class="flex flex-col items-center justify-center h-full -mt-12 space-y-8">
+            <a href="#quem-somos" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Quem Somos</a>
+            <a href="#o-que-fazemos" class="text-2xl text-gray-700 font-semibold mobile-nav-link">O Que Fazemos</a>
+            <a href="#iie" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Índice IIE</a>
+            <a href="#destaques" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Destaques</a>
+            <a href="#inteligencia" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Inteligência Municipal</a>
+        </nav>
+    </div>
+
 
     <main>
         <!-- Seção: Quem Somos -->
@@ -119,21 +164,18 @@
         </section>
 
         <!-- Seção: Índice de Igualdade de Ensino (IIE) -->
-        <section id="iie" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl section-title mb-4">Além do IDEB: O Índice de Igualdade de Educação (IIE)</h2>
-                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Para superar as limitações do IDEB e alinhar o Instituto com as fronteiras do conhecimento em avaliação, propomos o <strong>Índice de Igualdade de Educação (IIE)</strong>, um indicador multidimensional que incorpora equidade e condições de oferta.</p>
-                </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Dimensões do IIE -->
-                    <div class="card p-6 flex items-start space-x-4"><span class="material-symbols-outlined text-3xl text-orange-500 mt-1">functions</span><div><h4 class="font-bold text-lg">Desempenho</h4><p class="text-gray-600">Nota Média Padronizada em Matemática e Português (SAEB).</p></div></div>
-                    <div class="card p-6 flex items-start space-x-4"><span class="material-symbols-outlined text-3xl text-orange-500 mt-1">trending_up</span><div><h4 class="font-bold text-lg">Fluxo Escolar</h4><p class="text-gray-600">Taxa de Aprovação (IDEB/Censo Escolar).</p></div></div>
-                    <div class="card p-6 flex items-start space-x-4"><span class="material-symbols-outlined text-3xl text-orange-500 mt-1">balance</span><div><h4 class="font-bold text-lg">Equidade Socioeconômica</h4><p class="text-gray-600">Mede a desigualdade de resultados entre alunos de diferentes níveis socioeconômicos (SAEB).</p></div></div>
-                    <div class="card p-6 flex items-start space-x-4"><span class="material-symbols-outlined text-3xl text-orange-500 mt-1">diversity_3</span><div><h4 class="font-bold text-lg">Equidade Racial</h4><p class="text-gray-600">Disparidade de desempenho entre alunos brancos e negros/pardos (SAEB).</p></div></div>
-                    <div class="card p-6 flex items-start space-x-4"><span class="material-symbols-outlined text-3xl text-orange-500 mt-1">apartment</span><div><h4 class="font-bold text-lg">Infraestrutura</h4><p class="text-gray-600">Qualidade do ambiente físico: bibliotecas, internet, saneamento (Censo Escolar).</p></div></div>
-                    <div class="card p-6 flex items-start space-x-4"><span class="material-symbols-outlined text-3xl text-orange-500 mt-1">person_check</span><div><h4 class="font-bold text-lg">Corpo Docente</h4><p class="text-gray-600">Percentual de docentes com formação superior adequada (Censo Escolar).</p></div></div>
-                </div>
+        <section id="iie" class="py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[var(--cor-primaria)]">
+                    IIE - Índice de Impacto Educacional
+                </h2>
+                <p class="text-center text-lg text-gray-600 mb-2 max-w-3xl mx-auto">
+                    O IIE é uma iniciativa em desenvolvimento para medir e visualizar o impacto das nossas ações na educação municipal.
+                </p>
+                <p class="text-center text-md text-gray-500 mb-10 max-w-3xl mx-auto">
+                    O mapa abaixo expressa o <strong>crescimento do IDEB</strong> de cada município com atuação do Instituto, comparando a primeira (2005) e a última (2021) nota da série histórica. Municípios com maior evolução são exibidos em verde, destacando o impacto e o potencial de transformação.
+                </p>
+                <div id="map" class="h-[600px] w-full rounded-lg shadow-lg border-2 border-gray-200"></div>
             </div>
         </section>
 
@@ -162,9 +204,9 @@
         <!-- Seção: Inteligência Municipal -->
         <section id="inteligencia" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal com Google AI</h2>
+                 <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal</h2>
                 <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-8">
-                    Expandindo nossa análise, integramos modelos de Inteligência Artificial do Google para impulsionar a tomada de decisão crítica. Faça uma pergunta sobre os dados educacionais para receber um insight gerado por IA.
+                    Faça uma pergunta para receber um insight sobre os dados educacionais. Para a pergunta específica sobre Queimadas, a resposta será acompanhada de áudio.
                 </p>
                 <div class="card max-w-2xl mx-auto p-8 text-left">
                     <textarea id="ai-prompt" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-orange-400" rows="3" placeholder="Ex: Compare o crescimento do IDEB de Queimadas com a média da Paraíba."></textarea>
@@ -173,8 +215,14 @@
                         Gerar Análise
                     </button>
                     <div id="ai-response-container" class="mt-6 hidden">
-                        <h4 class="font-bold text-lg mb-2 text-gray-800">Análise da IA:</h4>
+                        <div class="flex items-center justify-between mb-2">
+                           <h4 class="font-bold text-lg text-gray-800">Análise:</h4>
+                            <button id="audio-button" class="text-gray-500 hover:text-orange-500 transition-colors disabled:opacity-50 disabled:cursor-wait hidden" title="Ouvir análise">
+                                <span class="material-symbols-outlined">volume_up</span>
+                            </button>
+                        </div>
                         <div id="ai-response" class="p-4 bg-gray-50 rounded-md text-gray-700 leading-relaxed"></div>
+                        <audio id="ai-audio-player" class="hidden"></audio>
                     </div>
                 </div>
             </div>
@@ -192,7 +240,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- DADOS COMPLETOS (extraídos dos PDFs) ---
+            // --- LÓGICA DO MENU MOBILE ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            function toggleMenu() {
+                mobileMenu.classList.toggle('hidden');
+            }
+
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            mobileMenuCloseButton.addEventListener('click', toggleMenu);
+
+            // Fecha o menu quando um link é clicado
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // --- LINK PARA O ÁUDIO ---
+            const audioUrlQueimadas = "https://raw.githubusercontent.com/deivysonhgr8/audio/main/audio/audio_completo.wav";
+
+            // --- DADOS COMPLETOS ---
             const idebData = {
                 'Ano': [2005, 2007, 2009, 2011, 2013, 2015, 2017, 2019, 2021, 2023],
                 'Queimadas': [2.9, 3.2, 3.5, 4.0, 3.7, 4.9, 5.2, 5.5, 6.1, 7.9],
@@ -201,69 +270,87 @@
                 'Itatuba': [2.5, 2.95, 2.65, 3.3, 3.55, 3.95, 3.9, 4.5, 4.4, 4.5],
                 'Santa Rita': [2.6, 2.8, 3.3, 3.7, 3.6, 3.75, 4.0, 4.2, 4.1, 4.5],
                 'Serra Redonda': [2.1, 3.4, 3.5, 3.0, 4.0, 4.4, 3.6, 4.1, 4.4, 4.5],
-                 'Paraíba': [2.7, 3.1, 3.6, 3.8, 4.0, 4.4, 4.6, 4.8, 4.9, 5.2] // Média do estado para comparação
+                'Paraíba': [2.7, 3.1, 3.6, 3.8, 4.0, 4.4, 4.6, 4.8, 4.9, 5.2]
             };
             
-            // Configuração para tornar os gráficos estáticos (sem zoom, pan, etc)
             const plotlyConfig = { responsive: true, displaylogo: false, displayModeBar: false };
             const ANOS_IDEB = idebData.Ano;
 
             // --- NAVEGAÇÃO ATIVA ---
             const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a');
+            const navLinks = document.querySelectorAll('nav a.nav-link');
             window.onscroll = () => {
                 let current = '';
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 68) {
-                        current = section.getAttribute('id');
-                    }
+                    if (pageYOffset >= sectionTop - 68) { current = section.getAttribute('id'); }
                 });
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href').includes(current)) {
-                        link.classList.add('active');
-                    }
+                    if (link.getAttribute('href').includes(current)) { link.classList.add('active'); }
                 });
             };
 
-            // --- FUNÇÕES DOS GRÁFICOS ---
-            function createClusterChart(elementId, municipios, colors) {
+            // --- GRÁFICOS ---
+            function createClusterChart(elementId, municipios, colors, annotations = []) {
                 const traces = municipios.map((municipio, index) => ({
                     x: ANOS_IDEB,
                     y: idebData[municipio],
                     type: 'scatter',
                     mode: 'lines+markers',
                     name: municipio,
-                    line: { color: colors[index], width: 2.5 },
-                    marker: { size: 8 }
+                    line: { color: colors[index], width: 3.5 }, // Linha mais espessa
+                    marker: { size: 9 }, // Marcador maior
+                    hovertemplate: `<b>${municipio}</b><br>Ano: %{x}<br>IDEB: %{y:.2f}<extra></extra>`
                 }));
 
                 const layout = {
-                    xaxis: { title: 'Ano', gridcolor: '#e5e7eb', fixedrange: true }, // Desabilita zoom no eixo X
-                    yaxis: { title: 'IDEB Médio', gridcolor: '#e5e7eb', fixedrange: true }, // Desabilita zoom no eixo Y
+                    xaxis: { title: 'Ano', gridcolor: '#e5e7eb', fixedrange: true },
+                    yaxis: { title: 'IDEB Médio', gridcolor: '#e5e7eb', fixedrange: true },
                     hovermode: 'x unified',
-                    legend: { title: { text: 'Municípios' } },
+                    legend: {
+                        orientation: 'h',      // Orientação horizontal
+                        yanchor: 'bottom',
+                        y: -0.4,               // Posição abaixo do gráfico
+                        xanchor: 'center',
+                        x: 0.5,
+                        title: { text: 'Municípios' }
+                    },
                     paper_bgcolor: 'transparent',
                     plot_bgcolor: 'transparent',
-                    margin: { l: 50, r: 20, t: 20, b: 40 }
+                    margin: { l: 50, r: 20, t: 40, b: 100 }, // Margem inferior aumentada para a legenda
+                    annotations: annotations
                 };
-
                 Plotly.newPlot(elementId, traces, layout, plotlyConfig);
             }
 
-            // --- INICIALIZAÇÃO DOS GRÁFICOS ---
-            createClusterChart('chart-outliers', ['Queimadas', 'Cabaceiras', 'Lagoa Seca'], ['#16a34a', '#22c55e', '#4ade80']);
+            // Anotação para o gráfico de outliers
+            const outlierAnnotations = [{
+                x: idebData.Ano[idebData.Ano.length - 1], // Último ano
+                y: idebData.Queimadas[idebData.Queimadas.length - 1], // Último IDEB de Queimadas
+                xref: 'x', yref: 'y',
+                text: `<b>Auge: ${idebData.Queimadas[idebData.Queimadas.length - 1]}</b>`,
+                showarrow: true, font: { family: 'Inter, sans-serif', size: 13, color: '#ffffff' },
+                align: 'center', arrowhead: 2, arrowsize: 1, arrowwidth: 2,
+                arrowcolor: '#16a34a', ax: 0, ay: -40,
+                bordercolor: '#16a34a', borderwidth: 2, borderpad: 4,
+                bgcolor: '#16a34a', opacity: 0.9
+            }];
+
+            createClusterChart('chart-outliers', ['Queimadas', 'Cabaceiras', 'Lagoa Seca'], ['#16a34a', '#22c55e', '#4ade80'], outlierAnnotations);
             createClusterChart('chart-critical', ['Itatuba', 'Santa Rita', 'Serra Redonda'], ['#dc2626', '#ef4444', '#f87171']);
 
-            // --- FUNCIONALIDADE DA IA ---
+
+            // --- INTELIGÊNCIA MUNICIPAL ---
             const aiButton = document.getElementById('ai-button');
             const aiPrompt = document.getElementById('ai-prompt');
             const aiResponseContainer = document.getElementById('ai-response-container');
             const aiResponse = document.getElementById('ai-response');
+            const audioButton = document.getElementById('audio-button');
+            const audioPlayer = document.getElementById('ai-audio-player');
 
-            aiButton.addEventListener('click', async () => {
-                const prompt = aiPrompt.value.trim();
+            aiButton.addEventListener('click', () => {
+                const prompt = aiPrompt.value.trim().toLowerCase();
                 if (!prompt) {
                     aiResponse.innerHTML = "Por favor, insira uma pergunta.";
                     aiResponseContainer.style.display = 'block';
@@ -273,33 +360,195 @@
                 aiButton.disabled = true;
                 aiButton.innerHTML = '<span class="material-symbols-outlined mr-2 animate-spin">progress_activity</span> Processando...';
                 aiResponseContainer.style.display = 'block';
-                aiResponse.innerHTML = "Analisando os dados e gerando insights...";
-
-                // Simulação de chamada à API do Gemini
-                // Em um projeto real, aqui você faria a chamada fetch para a API do Google AI.
+                audioButton.classList.add('hidden');
+                audioPlayer.src = '';
+                
                 setTimeout(() => {
-                    let responseText = "Não foi possível gerar uma resposta para essa pergunta. Tente perguntar sobre a comparação entre os municípios ou com a média do estado.";
-                    
-                    if (prompt.toLowerCase().includes("queimadas") && prompt.toLowerCase().includes("paraíba")) {
+                    let responseText = `Desculpe, não tenho uma resposta para essa pergunta. Por favor, tente a pergunta sobre a comparação do IDEB de Queimadas.`;
+                    let audioSrc = null;
+
+                    if (prompt.includes("queimadas") && prompt.includes("paraíba")) {
                         responseText = `
-                            <p><strong>Análise Comparativa: Queimadas vs. Média da Paraíba.</strong></p>
-                            <p>O município de <strong>Queimadas</strong> apresenta um desempenho notavelmente superior à média do estado da Paraíba. Em 2023, Queimadas alcançou um IDEB de <strong>7.9</strong>, enquanto a média estadual foi de <strong>5.2</strong>.</p>
-                            <p>Analisando a trajetória, o crescimento de Queimadas foi exponencial, especialmente após 2019, período de atuação intensificada do Instituto, saindo de 5.5 para 7.9. Isso representa um "efeito-Instituto" claro, com um crescimento acelerado que sugere um impacto positivo e distintivo das intervenções realizadas.</p>
+                            <p><strong>Análise Comparativa: Queimadas versus a média da Paraíba.</strong></p>
+                            <p>O município de Queimadas apresenta um desempenho notavelmente superior à média do estado. Em 2023, Queimadas alcançou um IDEB de 7.9, enquanto a média estadual foi de 5.2.</p>
+                            <p>Analisando a trajetória, o crescimento de Queimadas foi exponencial, especialmente após 2019, período de atuação intensificada do Instituto, saindo de 5.5 para 7.9. Isso representa um claro 'efeito-Instituto', com um crescimento acelerado que sugere um impacto positivo e distintivo das intervenções realizadas.</p>
                         `;
-                    } else if (prompt.toLowerCase().includes("críticos") || prompt.toLowerCase().includes("itatuba")) {
-                         responseText = `
-                            <p><strong>Análise sobre Municípios Críticos (Ex: Itatuba).</strong></p>
-                            <p>Municípios como <strong>Itatuba</strong>, <strong>Santa Rita</strong> e <strong>Serra Redonda</strong> são classificados como "pontos críticos". Embora tenham apresentado crescimento, o resultado final (IDEB em torno de <strong>4.5</strong> em 2023) ainda indica desafios significativos.</p>
-                             <p>Estes casos demandam uma análise aprofundada para compreender barreiras específicas, que podem estar relacionadas a fatores socioeconômicos adversos ou desafios de gestão local. Eles representam a fronteira do trabalho do Instituto, onde a inovação e a customização das intervenções são mais necessárias.</p>
-                        `;
+                        audioSrc = audioUrlQueimadas;
                     }
 
                     aiResponse.innerHTML = responseText;
+
+                    if (audioSrc) {
+                        audioPlayer.src = audioSrc;
+                        audioButton.classList.remove('hidden');
+                        audioButton.disabled = false;
+                        audioButton.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
+                    }
+
                     aiButton.disabled = false;
                     aiButton.innerHTML = '<span class="material-symbols-outlined mr-2">auto_awesome</span> Gerar Análise';
-                }, 2000);
+                }, 500);
             });
 
+            audioButton.addEventListener('click', () => {
+                if (!audioPlayer.src) return;
+                if (audioPlayer.paused || audioPlayer.ended) {
+                    if (audioPlayer.ended) audioPlayer.currentTime = 0;
+                    audioPlayer.play();
+                } else {
+                    audioPlayer.pause();
+                }
+            });
+
+            audioPlayer.addEventListener('play', () => { audioButton.innerHTML = '<span class="material-symbols-outlined">pause</span>'; });
+            audioPlayer.addEventListener('pause', () => { audioButton.innerHTML = '<span class="material-symbols-outlined">play_arrow</span>'; });
+            audioPlayer.addEventListener('ended', () => { audioButton.innerHTML = '<span class="material-symbols-outlined">replay</span>'; });
+
+            // --- LÓGICA DO MAPA IIE ---
+            const map = L.map('map').setView([-7.9, -36.5], 7);
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            }).addTo(map);
+
+            const idebMapData = [
+                { municipio: "ALAGOA NOVA", uf: "PB", crescimento: 1.6, info: "de 3.2 para 4.8" },
+                { municipio: "BANANEIRAS", uf: "PB", crescimento: 1.8, info: "de 3.4 para 5.2" },
+                { municipio: "CABACEIRAS", uf: "PB", crescimento: 3.6, info: "de 3.2 para 6.8" },
+                { municipio: "CAMPINA GRANDE", uf: "PB", crescimento: 1.9, info: "de 3.6 para 5.5" },
+                { municipio: "CARPINA", uf: "PE", crescimento: 1.2, info: "de 3.8 para 5.0" },
+                { municipio: "INGÁ", uf: "PB", crescimento: 1.5, info: "de 3.0 para 4.5" },
+                { municipio: "ITATUBA", uf: "PB", crescimento: 1.4, info: "de 3.3 para 4.7" },
+                { municipio: "JOÃO PESSOA", uf: "PB", crescimento: 1.9, info: "de 4.0 para 5.9" },
+                { municipio: "LAGOA SECA", uf: "PB", crescimento: 1.6, info: "de 3.5 para 5.1" },
+                { municipio: "MOGEIRO", uf: "PB", crescimento: 1.1, info: "de 3.2 para 4.3" },
+                { municipio: "MONTES CLAROS", uf: "MG", crescimento: 1.5, info: "de 4.7 para 6.2" },
+                { municipio: "QUEIMADAS", uf: "PB", crescimento: 4.0, info: "de 3.5 para 7.5" },
+                { municipio: "SANTA RITA", uf: "PB", crescimento: 1.3, info: "de 3.3 para 4.6" },
+                { municipio: "SERRA REDONDA", uf: "PB", crescimento: 1.1, info: "de 3.3 para 4.4" },
+            ];
+
+            function formatarNome(nome) {
+                if (!nome) return '';
+                return nome.toUpperCase()
+                           .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
+                           .replace(/[-.!?'`()]/g, "")
+                           .replace(/\s+/g, '');
+            }
+            
+            const idebMap = new Map(idebMapData.map(d => [formatarNome(d.municipio), {crescimento: d.crescimento, info: d.info}]));
+
+            function getColor(crescimento) {
+                return crescimento > 3.0 ? '#1a9850' :
+                       crescimento > 2.0 ? '#66bd63' :
+                       crescimento > 1.7 ? '#a6d96a' :
+                       crescimento > 1.4 ? '#fee08b' :
+                       crescimento > 1.2 ? '#fdae61' :
+                                            '#d73027';
+            }
+            
+            function style(feature) {
+                const nomeFormatado = formatarNome(feature.properties.name);
+                const data = idebMap.get(nomeFormatado);
+
+                if (data === undefined) {
+                    return {
+                        fillColor: 'transparent',
+                        weight: 0.5,
+                        opacity: 0.4,
+                        color: '#AAA',
+                        fillOpacity: 0.0
+                    };
+                }
+
+                return {
+                    fillColor: getColor(data.crescimento),
+                    weight: 1.5,
+                    opacity: 1,
+                    color: '#FFF',
+                    dashArray: '3',
+                    fillOpacity: 0.8
+                };
+            }
+            
+            function highlightFeature(e) {
+                const layer = e.target;
+                layer.setStyle({
+                    weight: 4,
+                    color: 'var(--cor-primaria)',
+                    dashArray: '',
+                    fillOpacity: 0.9
+                });
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
+                }
+            }
+
+            let geojsonLayer; 
+
+            function resetHighlight(e) {
+                geojsonLayer.resetStyle(e.target);
+            }
+
+            function onEachFeature(feature, layer) {
+                const nomeFormatado = formatarNome(feature.properties.name);
+                const data = idebMap.get(nomeFormatado);
+
+                if (data !== undefined) {
+                    const popupContent = `<b>${feature.properties.name}</b><br>Crescimento IDEB: <b>+${data.crescimento.toFixed(1)}</b><br><small>(${data.info})</small>`;
+                    layer.bindPopup(popupContent);
+                    layer.on({
+                        mouseover: highlightFeature,
+                        mouseout: resetHighlight,
+                    });
+                } else {
+                    layer.off('click').off('mouseover').off('mouseout');
+                }
+            }
+
+            const urlsGeoJSON = {
+                'PB': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-25-mun.json',
+                'PE': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-26-mun.json',
+                'MG': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-31-mun.json',
+            };
+
+            const promises = Object.values(urlsGeoJSON).map(url => fetch(url).then(res => res.json()));
+
+            Promise.all(promises).then(allGeoData => {
+                const combinedGeoData = {
+                    type: "FeatureCollection",
+                    features: allGeoData.flatMap(data => data.features)
+                };
+
+                geojsonLayer = L.geoJson(combinedGeoData, {
+                    style: style,
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+                
+                map.fitBounds(geojsonLayer.getBounds());
+            }).catch(error => {
+                console.error("Erro ao carregar dados geográficos:", error);
+                document.getElementById('map').innerHTML = '<p class="text-center text-red-500 p-4">Não foi possível carregar o mapa. Tente novamente mais tarde.</p>';
+            });
+
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function (map) {
+                const div = L.DomUtil.create('div', 'info legend');
+                const grades = [1.2, 1.4, 1.7, 2.0, 3.0];
+                const labels = ['<strong>Crescimento IDEB</strong><br><small>(2021 vs 2005)</small>'];
+                
+                labels.push(`<i style="background: #d73027"></i> < 1.2`);
+                for (let i = 0; i < grades.length; i++) {
+                    labels.push(
+                        '<i style="background:' + getColor(grades[i] + 0.1) + '"></i> ' +
+                        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] : '+')
+                    );
+                }
+
+                div.innerHTML = labels.join('<br>');
+                return div;
+            };
+            legend.addTo(map);
         });
     </script>
 </body>
