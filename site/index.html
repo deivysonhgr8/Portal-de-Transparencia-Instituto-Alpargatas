@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha26-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         :root {
@@ -107,17 +107,16 @@
             font-weight: 700;
         }
         
-        /* --- [ALTERADO] ESTILO DA SEÇÃO HERO TELA CHEIA --- */
         #quem-somos {
             position: relative;
             background-image: url('fundo título.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            height: 100vh; /* Ocupa a altura total da tela */
+            height: 100vh;
             display: flex;
-            align-items: center; /* Centraliza verticalmente */
-            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center;
+            justify-content: center;
         }
         #quem-somos::after {
             content: '';
@@ -134,7 +133,6 @@
             color: white;
         }
 
-        /* --- ESTILO PARA O CANVAS DE FUNDO E TRANSPARÊNCIA --- */
         #interactive-background {
             position: fixed;
             top: 0;
@@ -154,7 +152,6 @@
             background-color: transparent !important;
         }
 
-        /* --- [NOVO] ESTILOS PARA ANIMAÇÃO DO CÍRCULO E NÚMEROS --- */
         .icon-animation-container {
             position: relative;
             width: 130px;
@@ -165,50 +162,54 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
             font-size: 60px;
             color: var(--cor-acento);
-            transition: opacity 0.5s ease;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
         }
         .beneficiados-counter {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.75rem; /* 28px */
+            width: 100%;
+            text-align: center;
+            font-size: 1.75rem;
             font-weight: 800;
             color: var(--cor-primaria);
-            opacity: 0; /* Começa invisível */
-            transition: opacity 0.5s ease 1.5s; /* Aparece após a animação do círculo */
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.7);
+            transition: opacity 0.4s ease-in 1.1s, transform 0.4s ease-in 1.1s;
         }
         .circle-svg {
             width: 130px;
             height: 130px;
-            transform: rotate(-90deg); /* Começa o círculo do topo */
+            transform: rotate(-90deg);
         }
         .circle-bg {
             fill: none;
-            stroke: #e2e8f0; /* Cor de fundo do círculo */
+            stroke: #e2e8f0;
             stroke-width: 8;
         }
         .circle-progress {
             fill: none;
-            stroke: var(--cor-acento); /* Cor da animação */
+            stroke: var(--cor-acento);
             stroke-width: 8;
             stroke-linecap: round;
-            stroke-dasharray: 352; /* Perímetro do círculo (2 * PI * r) */
+            stroke-dasharray: 352;
             stroke-dashoffset: 352;
         }
         
-        /* Animação ativada via JS */
         .animate-circle .circle-progress {
             animation: draw-circle 1.5s ease-out forwards;
         }
         .animate-circle .material-symbols-outlined {
-            opacity: 0; /* Esconde o ícone */
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
         }
         .animate-circle .beneficiados-counter {
-            opacity: 1; /* Mostra o número */
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
 
         @keyframes draw-circle {
@@ -395,7 +396,7 @@
             const aiResponse = document.getElementById('ai-response');
             const audioData = {
                 'queimadas': { text: "Análise de Destaque: Queimadas. Com um impressionante IQE de 9.27, Queimadas se posiciona como um município de altíssimo desempenho educacional. Este índice reflete não apenas excelentes resultados de aprendizagem, mas também uma infraestrutura escolar de qualidade e bons indicadores de equidade, mostrando um sistema educacional robusto e eficaz.", src: 'audio_completo.wav' },
-                'criticos': { text: "Análise de Atenção: Pontos Críticos. Municípios como Itatuba, com IQE de 1.0, e Santa Rita, com 1.69, representam pontos de atenção máxima. Estes índices extremamente baixos sinalizam uma emergência educacional, com desafios críticos em todas as dimensões avaliadas, como infraestrutura, desempenho e equidade. Estes casos demandam apoio intensivo e urgente.", src: 'data:audio/wav;base64,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' }
+                'criticos': { text: "Análise de Atenção: Pontos Críticos. Municípios como Itatuba, com IQE de 1.0, e Santa Rita, com 1.69, representam pontos de atenção máxima. Estes índices extremamente baixos sinalizam uma emergência educacional, com desafios críticos em todas as dimensões avaliadas, como infraestrutura, desempenho e equidade. Estes casos demandam apoio intensivo e urgente.", src: 'data:audio/wav;base64,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' }
             };
 
             const audioButtons = document.querySelectorAll('.btn-audio');
@@ -431,7 +432,7 @@
                 }
             });
             
-            // --- [ALTERADO] LÓGICA DOS PROJETOS COM ANIMAÇÃO ---
+            // --- LÓGICA DOS PROJETOS COM ANIMAÇÃO ---
             const projetosData = {
                 esporte: {
                     icone: 'sports_soccer',
@@ -459,20 +460,22 @@
 
             function animateCounter(element, finalNumberStr) {
                 const finalNumber = parseInt(finalNumberStr.replace(/\./g, ''));
-                let start = 0;
-                const duration = 1500; // Duração da contagem em ms
-                const stepTime = Math.abs(Math.floor(duration / finalNumber));
-
+                const duration = 1500; 
                 let currentNumber = 0;
-                const timer = setInterval(() => {
-                    const increment = Math.ceil(finalNumber / (duration / 15));
+                const frameDuration = 1000 / 60; // 60fps
+                const totalFrames = Math.round(duration / frameDuration);
+                const increment = finalNumber / totalFrames;
+
+                const updateCount = () => {
                     currentNumber += increment;
                     if (currentNumber >= finalNumber) {
-                        currentNumber = finalNumber;
-                        clearInterval(timer);
+                        element.innerText = finalNumber.toLocaleString('pt-BR');
+                        return;
                     }
-                    element.innerText = currentNumber.toLocaleString('pt-BR');
-                }, 15);
+                    element.innerText = Math.floor(currentNumber).toLocaleString('pt-BR');
+                    requestAnimationFrame(updateCount);
+                };
+                requestAnimationFrame(updateCount);
             }
             
             function updateProjectView(projetoKey) {
@@ -484,7 +487,7 @@
                         <div class="md:col-span-1 flex flex-col items-center">
                             <div class="icon-animation-container">
                                 <span class="material-symbols-outlined">${projeto.icone}</span>
-                                <div class="beneficiados-counter" data-target="${projeto.beneficiados}">0</div>
+                                <div class="beneficiados-counter">0</div>
                                 <svg class="circle-svg" viewBox="0 0 120 120">
                                     <circle class="circle-bg" cx="60" cy="60" r="56"></circle>
                                     <circle class="circle-progress" cx="60" cy="60" r="56"></circle>
@@ -499,19 +502,17 @@
                     </div>
                 `;
                 
-                // Ativa a animação do círculo e do contador
                 setTimeout(() => {
                     const animationContainer = projetoContainer.querySelector('.icon-animation-container');
                     const counterElement = projetoContainer.querySelector('.beneficiados-counter');
                     if (animationContainer && counterElement) {
                         animationContainer.classList.add('animate-circle');
                         
-                        // Inicia o contador após o círculo começar a fechar
                         setTimeout(() => {
                             animateCounter(counterElement, projeto.beneficiados);
-                        }, 1500); // Deve corresponder à transição de opacidade do CSS
+                        }, 1100);
                     }
-                }, 100); // Pequeno delay para garantir que o elemento está no DOM
+                }, 100); 
 
                 projetoBtns.forEach(btn => {
                     btn.classList.remove('active-btn');
@@ -676,6 +677,22 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
+            let mouse = {
+                x: null,
+                y: null,
+                radius: 150
+            };
+
+            window.addEventListener('mousemove', function(event) {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            
+            window.addEventListener('mouseout', function() {
+                mouse.x = undefined;
+                mouse.y = undefined;
+            });
+
             let particlesArray = [];
 
             class Particle {
@@ -686,17 +703,10 @@
                     this.directionY = directionY;
                     this.size = size;
                 }
-                // As partículas agora são invisíveis
-                draw() {
-                    // Não desenha nada aqui para que vejamos apenas as linhas
-                }
+                draw() { /* Partículas invisíveis */ }
                 update() {
-                    if (this.x > canvas.width || this.x < 0) {
-                        this.directionX = -this.directionX;
-                    }
-                    if (this.y > canvas.height || this.y < 0) {
-                        this.directionY = -this.directionY;
-                    }
+                    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
                     this.x += this.directionX;
                     this.y += this.directionY;
                     this.draw();
@@ -705,10 +715,9 @@
 
             function init() {
                 particlesArray = [];
-                // Reduzimos o número de partículas para um efeito mais limpo
                 let numberOfParticles = (canvas.height * canvas.width) / 25000;
                 for (let i = 0; i < numberOfParticles; i++) {
-                    let size = 0; // Tamanho 0, pois são invisíveis
+                    let size = 0;
                     let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
                     let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
                     let directionX = (Math.random() * .4) - .2;
@@ -722,16 +731,28 @@
                 for (let a = 0; a < particlesArray.length; a++) {
                     for (let b = a; b < particlesArray.length; b++) {
                         let distance = Math.sqrt(Math.pow(particlesArray[a].x - particlesArray[b].x, 2) + Math.pow(particlesArray[a].y - particlesArray[b].y, 2));
-                        // Aumentamos a distância de conexão para criar linhas mais longas
                         if (distance < (canvas.width / 7)) {
                             opacityValue = 1 - (distance / (canvas.width / 7));
-                            // Usamos a cor primária com opacidade
                             ctx.strokeStyle = `rgba(0, 45, 91, ${opacityValue * 0.3})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
                             ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
                             ctx.stroke();
+                        }
+                    }
+
+                    if (mouse.x != null && mouse.y != null) {
+                        let distanceToMouse = Math.sqrt(Math.pow(particlesArray[a].x - mouse.x, 2) + Math.pow(particlesArray[a].y - mouse.y, 2));
+                        
+                        if (distanceToMouse < mouse.radius) {
+                             opacityValue = 1 - (distanceToMouse / mouse.radius);
+                             ctx.strokeStyle = `rgba(242, 101, 34, ${opacityValue * 0.8})`;
+                             ctx.lineWidth = 1.2;
+                             ctx.beginPath();
+                             ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                             ctx.lineTo(mouse.x, mouse.y);
+                             ctx.stroke();
                         }
                     }
                 }
