@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha26-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         :root {
@@ -20,7 +20,7 @@
             --cor-texto: #333333;
         }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--cor-fundo); color: var(--cor-texto); }
+        body { font-family: 'Inter', sans-serif; color: var(--cor-texto); }
         .nav-link {
             transition: color 0.3s ease, border-bottom-color 0.3s ease;
             border-bottom: 2px solid transparent;
@@ -75,25 +75,22 @@
             width: 18px; height: 18px; float: left;
             margin-right: 8px; opacity: 0.9;
         }
-        /* Animação */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         
-        /* Estilos customizados para o seletor */
         .custom-select {
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B7280'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24' fill='%236B7280'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
             background-size: 1.5em 1.5em;
         }
         
-        /* --- CSS NOVO PARA OS PROJETOS --- */
         .projeto-btn {
             background-color: #F7F9FC;
             color: #6b7280;
@@ -109,9 +106,120 @@
             border-color: var(--cor-acento);
             font-weight: 700;
         }
+        
+        /* --- [ALTERADO] ESTILO DA SEÇÃO HERO TELA CHEIA --- */
+        #quem-somos {
+            position: relative;
+            background-image: url('fundo título.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh; /* Ocupa a altura total da tela */
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+            justify-content: center; /* Centraliza horizontalmente */
+        }
+        #quem-somos::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 45, 91, 0.7);
+            z-index: 1;
+        }
+        #quem-somos .container {
+            position: relative;
+            z-index: 2;
+        }
+        #quem-somos h1, #quem-somos p {
+            color: white;
+        }
+
+        /* --- ESTILO PARA O CANVAS DE FUNDO E TRANSPARÊNCIA --- */
+        #interactive-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        body { background-color: transparent; }
+        section#quem-somos.bg-white,
+        section#o-que-fazemos, 
+        section#iqe-mapa.bg-white,
+        section#analise-municipal, 
+        section#inteligencia,
+        section#inteligencia.bg-white {
+            background-color: transparent !important;
+        }
+
+        /* --- [NOVO] ESTILOS PARA ANIMAÇÃO DO CÍRCULO E NÚMEROS --- */
+        .icon-animation-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+        }
+        .icon-animation-container .material-symbols-outlined {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: var(--cor-acento);
+            transition: opacity 0.5s ease;
+        }
+        .beneficiados-counter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.75rem; /* 28px */
+            font-weight: 800;
+            color: var(--cor-primaria);
+            opacity: 0; /* Começa invisível */
+            transition: opacity 0.5s ease 1.5s; /* Aparece após a animação do círculo */
+        }
+        .circle-svg {
+            width: 130px;
+            height: 130px;
+            transform: rotate(-90deg); /* Começa o círculo do topo */
+        }
+        .circle-bg {
+            fill: none;
+            stroke: #e2e8f0; /* Cor de fundo do círculo */
+            stroke-width: 8;
+        }
+        .circle-progress {
+            fill: none;
+            stroke: var(--cor-acento); /* Cor da animação */
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 352; /* Perímetro do círculo (2 * PI * r) */
+            stroke-dashoffset: 352;
+        }
+        
+        /* Animação ativada via JS */
+        .animate-circle .circle-progress {
+            animation: draw-circle 1.5s ease-out forwards;
+        }
+        .animate-circle .material-symbols-outlined {
+            opacity: 0; /* Esconde o ícone */
+        }
+        .animate-circle .beneficiados-counter {
+            opacity: 1; /* Mostra o número */
+        }
+
+        @keyframes draw-circle {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
+    <canvas id="interactive-background"></canvas>
 
     <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -144,8 +252,8 @@
     <main>
         <section id="quem-somos" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-5xl section-title mb-6 fade-in">Portal de Transprarência: Instituto Alpargatas</h1>
-                <p class="max-w-4xl mx-auto text-lg text-gray-600 leading-relaxed fade-in" style="animation-delay: 200ms;">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-6 fade-in" style="color:white;">Portal de Transparência: Instituto Alpargatas</h1>
+                <p class="max-w-4xl mx-auto text-lg leading-relaxed fade-in" style="animation-delay: 200ms; color: white;">
                     Neste cenário complexo da educação brasileira, o <strong>Instituto Alpargatas</strong> posiciona-se como uma organização do terceiro setor, de caráter privado e sem fins lucrativos, cuja missão é catalisar a melhoria da qualidade da educação pública. Atuando em regime de colaboração com o poder público, o Instituto desenvolve e implementa projetos que visam fortalecer a gestão educacional, qualificar as práticas pedagógicas e promover o engajamento das comunidades escolares.
                 </p>
             </div>
@@ -323,7 +431,7 @@
                 }
             });
             
-            // --- LÓGICA DOS PROJETOS (O QUE FAZEMOS) ---
+            // --- [ALTERADO] LÓGICA DOS PROJETOS COM ANIMAÇÃO ---
             const projetosData = {
                 esporte: {
                     icone: 'sports_soccer',
@@ -349,19 +457,40 @@
             const projetoContainer = document.getElementById('projeto-container');
             const projetoBtns = document.querySelectorAll('.projeto-btn');
 
+            function animateCounter(element, finalNumberStr) {
+                const finalNumber = parseInt(finalNumberStr.replace(/\./g, ''));
+                let start = 0;
+                const duration = 1500; // Duração da contagem em ms
+                const stepTime = Math.abs(Math.floor(duration / finalNumber));
+
+                let currentNumber = 0;
+                const timer = setInterval(() => {
+                    const increment = Math.ceil(finalNumber / (duration / 15));
+                    currentNumber += increment;
+                    if (currentNumber >= finalNumber) {
+                        currentNumber = finalNumber;
+                        clearInterval(timer);
+                    }
+                    element.innerText = currentNumber.toLocaleString('pt-BR');
+                }, 15);
+            }
+            
             function updateProjectView(projetoKey) {
                 const projeto = projetosData[projetoKey];
                 if (!projeto) return;
 
-                // Atualiza o conteúdo
                 projetoContainer.innerHTML = `
                     <div class="grid md:grid-cols-3 gap-8 items-center text-center md:text-left fade-in">
                         <div class="md:col-span-1 flex flex-col items-center">
-                            <span class="material-symbols-outlined text-6xl mb-4" style="color: var(--cor-acento);">${projeto.icone}</span>
-                            <div class="text-center">
-                                <p class="text-3xl font-bold" style="color: var(--cor-primaria);">${projeto.beneficiados}</p>
-                                <p class="text-sm text-gray-500 uppercase font-medium">Total de Beneficiados</p>
+                            <div class="icon-animation-container">
+                                <span class="material-symbols-outlined">${projeto.icone}</span>
+                                <div class="beneficiados-counter" data-target="${projeto.beneficiados}">0</div>
+                                <svg class="circle-svg" viewBox="0 0 120 120">
+                                    <circle class="circle-bg" cx="60" cy="60" r="56"></circle>
+                                    <circle class="circle-progress" cx="60" cy="60" r="56"></circle>
+                                </svg>
                             </div>
+                            <p class="text-sm text-gray-500 uppercase font-medium mt-3">Total de Beneficiados</p>
                         </div>
                         <div class="md:col-span-2">
                             <h3 class="text-2xl font-bold mb-3" style="color: var(--cor-acento);">${projeto.titulo}</h3>
@@ -369,8 +498,21 @@
                         </div>
                     </div>
                 `;
+                
+                // Ativa a animação do círculo e do contador
+                setTimeout(() => {
+                    const animationContainer = projetoContainer.querySelector('.icon-animation-container');
+                    const counterElement = projetoContainer.querySelector('.beneficiados-counter');
+                    if (animationContainer && counterElement) {
+                        animationContainer.classList.add('animate-circle');
+                        
+                        // Inicia o contador após o círculo começar a fechar
+                        setTimeout(() => {
+                            animateCounter(counterElement, projeto.beneficiados);
+                        }, 1500); // Deve corresponder à transição de opacidade do CSS
+                    }
+                }, 100); // Pequeno delay para garantir que o elemento está no DOM
 
-                // Atualiza o estilo dos botões
                 projetoBtns.forEach(btn => {
                     btn.classList.remove('active-btn');
                     if(btn.dataset.projeto === projetoKey) {
@@ -386,7 +528,6 @@
                 }
             });
 
-            // Exibe o primeiro projeto por padrão
             updateProjectView('esporte');
             
             // --- LÓGICA DO MAPA E ANÁLISE MUNICIPAL (IQE) ---
@@ -419,11 +560,11 @@
             const analiseMunicipioNome = document.getElementById('analise-municipio-nome');
 
             function getIqeColor(iqe) {
-                if (iqe >= 9) return '#1a9850';  // Verde escuro (Excelente)
-                if (iqe >= 7) return '#66c2a5';  // Verde claro (Bom)
-                if (iqe >= 5) return '#fee08b';  // Amarelo (Médio)
-                if (iqe >= 3) return '#f46d43';  // Laranja (Atenção)
-                return '#d73027';                // Vermelho (Crítico)
+                if (iqe >= 9) return '#1a9850';
+                if (iqe >= 7) return '#66c2a5';
+                if (iqe >= 5) return '#fee08b';
+                if (iqe >= 3) return '#f46d43';
+                return '#d73027';
             }
             
             function updateMunicipioAnalise() {
@@ -433,10 +574,8 @@
                 analiseMunicipioNome.textContent = selectedMunicipio.nome;
                 iqeContexto.textContent = selectedMunicipio.contexto;
                 iqeAnalise.textContent = selectedMunicipio.analise;
-
                 analiseContainer.classList.remove('opacity-0');
 
-                // Animação da linha
                 const iqePercent = (selectedMunicipio.iqe / 10) * 100;
                 const iqeColor = getIqeColor(selectedMunicipio.iqe);
                 
@@ -450,7 +589,6 @@
                 }, 100);
             }
 
-            // Popula o seletor
             iqeData.sort((a, b) => a.nome.localeCompare(b.nome));
             iqeData.forEach(mun => {
                 const option = document.createElement('option');
@@ -459,10 +597,8 @@
                 municipioSelect.appendChild(option);
             });
             municipioSelect.addEventListener('change', updateMunicipioAnalise);
-            updateMunicipioAnalise(); // Chama para exibir o primeiro da lista
+            updateMunicipioAnalise();
 
-
-            // --- LÓGICA DO MAPA IQE ---
             const map = L.map('map').setView([-7.9, -36.5], 7);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -530,6 +666,94 @@
                 return div;
             };
             legend.addTo(map);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.getElementById('interactive-background');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particlesArray = [];
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                }
+                // As partículas agora são invisíveis
+                draw() {
+                    // Não desenha nada aqui para que vejamos apenas as linhas
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.directionY = -this.directionY;
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function init() {
+                particlesArray = [];
+                // Reduzimos o número de partículas para um efeito mais limpo
+                let numberOfParticles = (canvas.height * canvas.width) / 25000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = 0; // Tamanho 0, pois são invisíveis
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .4) - .2;
+                    let directionY = (Math.random() * .4) - .2;
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size));
+                }
+            }
+
+            function connect() {
+                let opacityValue = 1;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = Math.sqrt(Math.pow(particlesArray[a].x - particlesArray[b].x, 2) + Math.pow(particlesArray[a].y - particlesArray[b].y, 2));
+                        // Aumentamos a distância de conexão para criar linhas mais longas
+                        if (distance < (canvas.width / 7)) {
+                            opacityValue = 1 - (distance / (canvas.width / 7));
+                            // Usamos a cor primária com opacidade
+                            ctx.strokeStyle = `rgba(0, 45, 91, ${opacityValue * 0.3})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connect();
+            }
+            
+            window.addEventListener('resize', function() {
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+                init();
+            });
+
+            init();
+            animate();
         });
     </script>
 </body>
