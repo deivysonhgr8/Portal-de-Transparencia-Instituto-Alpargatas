@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Transparência: Instituto Alpargatas</title>
-    <!-- Incluindo Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Incluindo Plotly.js para os gráficos -->
     <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-    <!-- Incluindo Google Fonts e Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <!-- Incluindo Leaflet.js para o mapa (CSS e JS) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
@@ -84,7 +80,7 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in { animation: fadeIn 1s ease-out forwards; }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         
         /* Estilos customizados para o seletor */
         .custom-select {
@@ -96,18 +92,33 @@
             background-position: right 0.75rem center;
             background-size: 1.5em 1.5em;
         }
+        
+        /* --- CSS NOVO PARA OS PROJETOS --- */
+        .projeto-btn {
+            background-color: #F7F9FC;
+            color: #6b7280;
+            border: 2px solid #e2e8f0;
+        }
+        .projeto-btn:hover {
+            background-color: #e2e8f0;
+            border-color: #cbd5e1;
+        }
+        .projeto-btn.active-btn {
+            background-color: #FFF7ED;
+            color: var(--cor-acento);
+            border-color: var(--cor-acento);
+            font-weight: 700;
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Header & Navegação -->
     <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <img src="IA.png" alt="Logo IA" class="h-10 w-10">
                 <span class="text-xl font-bold text-gray-700">Instituto Alpargatas</span>
             </div>
-            <!-- Menu Desktop -->
             <nav class="hidden md:flex space-x-6">
                 <a href="#quem-somos" class="nav-link text-gray-600 font-medium">Quem Somos</a>
                 <a href="#o-que-fazemos" class="nav-link text-gray-600 font-medium">O Que Fazemos</a>
@@ -115,14 +126,12 @@
                 <a href="#analise-municipal" class="nav-link text-gray-600 font-medium">Análise Municipal</a>
                 <a href="#inteligencia" class="nav-link text-gray-600 font-medium">Inteligência Municipal</a>
             </nav>
-            <!-- Botão Menu Mobile -->
             <div class="md:hidden">
                 <button id="menu-btn" class="text-gray-700 focus:outline-none">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
         </div>
-        <!-- Menu Mobile -->
         <div id="mobile-menu" class="md:hidden hidden bg-white">
             <a href="#quem-somos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Quem Somos</a>
             <a href="#o-que-fazemos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">O Que Fazemos</a>
@@ -133,7 +142,6 @@
     </header>
 
     <main>
-        <!-- Seção: Quem Somos -->
         <section id="quem-somos" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-4xl md:text-5xl section-title mb-6 fade-in">Portal de Transprarência: Instituto Alpargatas</h1>
@@ -143,31 +151,28 @@
             </div>
         </section>
 
-        <!-- Seção: O Que Fazemos -->
         <section id="o-que-fazemos" class="py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl section-title text-center mb-12">Nossa Atuação Estratégica</h2>
-                <div class="grid md:grid-cols-3 gap-8 text-center">
-                    <div class="card p-8 fade-in">
-                        <span class="material-symbols-outlined text-5xl text-orange-500 mx-auto mb-4">groups</span>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Parcerias de Impacto</h3>
-                        <p class="text-gray-600">Privilegiamos a construção de parcerias de longo prazo com as secretarias municipais de educação, trabalhando de forma integrada para diagnosticar desafios e planejar intervenções.</p>
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl section-title">Nossa Atuação Estratégica</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600 mt-4">
+                        Selecione um de nossos eixos de atuação para conhecer o impacto gerado, os projetos desenvolvidos e o total de vidas transformadas.
+                    </p>
+                </div>
+
+                <div class="card max-w-4xl mx-auto p-8">
+                    <div id="projeto-seletor" class="flex flex-wrap gap-4 mb-8 justify-center">
+                        <button data-projeto="esporte" class="projeto-btn flex-1 min-w-[180px] text-center font-medium py-3 px-4 rounded-lg transition-all duration-300">Educação pelo Esporte</button>
+                        <button data-projeto="cultura" class="projeto-btn flex-1 min-w-[180px] text-center font-medium py-3 px-4 rounded-lg transition-all duration-300">Educação pela Cultura</button>
+                        <button data-projeto="profissionalizante" class="projeto-btn flex-1 min-w-[180px] text-center font-medium py-3 px-4 rounded-lg transition-all duration-300">Educação Profissionalizante</button>
                     </div>
-                    <div class="card p-8 fade-in" style="animation-delay: 200ms;">
-                        <span class="material-symbols-outlined text-5xl text-orange-500 mx-auto mb-4">school</span>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Inovação Pedagógica</h3>
-                        <p class="text-gray-600">Introduzimos inovações pedagógicas e de gestão, mobilizando recursos para qualificar as práticas em sala de aula e fortalecer as comunidades escolares.</p>
-                    </div>
-                    <div class="card p-8 fade-in" style="animation-delay: 400ms;">
-                        <span class="material-symbols-outlined text-5xl text-orange-500 mx-auto mb-4">monitoring</span>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Foco em Resultados</h3>
-                        <p class="text-gray-600">Nossa filosofia baseia-se na crença de que a transformação da educação requer uma ação coordenada que combine o rigor técnico com a sensibilidade às realidades locais.</p>
-                    </div>
+
+                    <div id="projeto-container">
+                        </div>
                 </div>
             </div>
         </section>
 
-        <!-- Seção: Mapa IQE -->
         <section id="iqe-mapa" class="py-20 bg-white">
             <div class="container mx-auto px-6">
                  <div class="text-center mb-12">
@@ -180,7 +185,6 @@
             </div>
         </section>
         
-        <!-- Seção: Análise Municipal -->
         <section id="analise-municipal" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
@@ -195,7 +199,6 @@
                     </div>
 
                     <div id="analise-container" class="grid lg:grid-cols-2 gap-8 items-center opacity-0 transition-opacity duration-500">
-                        <!-- Coluna do Gráfico/Animação -->
                         <div class="space-y-4">
                             <h3 id="analise-municipio-nome" class="text-2xl lg:text-3xl font-bold text-center" style="color: var(--cor-acento);"></h3>
                             <div class="bg-gray-200 rounded-full h-5 w-full overflow-hidden">
@@ -205,7 +208,6 @@
                             </div>
                             <p class="text-center text-gray-600 font-medium">Nível do IQE (1 a 10)</p>
                         </div>
-                        <!-- Coluna do Texto -->
                         <div id="analise-texto-container">
                              <h3 class="text-xl font-bold text-gray-800 mb-2">Contexto Municipal</h3>
                              <p id="iqe-contexto" class="text-gray-600 mb-4 text-justify"></p>
@@ -217,7 +219,6 @@
             </div>
         </section>
 
-        <!-- Seção: Inteligência Municipal -->
         <section id="inteligencia" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
                  <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal com Análise em Áudio</h2>
@@ -244,7 +245,6 @@
         </section>
     </main>
     
-    <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 Instituto Alpargatas. Todos os direitos reservados.</p>
@@ -323,8 +323,73 @@
                 }
             });
             
-            // --- LÓGICA DO MAPA E ANÁLISE MUNICIPAL (IQE) ---
+            // --- LÓGICA DOS PROJETOS (O QUE FAZEMOS) ---
+            const projetosData = {
+                esporte: {
+                    icone: 'sports_soccer',
+                    titulo: 'Educação pelo Esporte',
+                    descricao: 'É um programa que visa melhorar a educação de crianças e jovens por meio da prática esportiva e cultural. O instituto atua em parceria com secretarias municipais de educação e escolas públicas para desenvolver competências socioemocionais e cognitivas, promover a participação de alunos e valorizar experiências inovadoras de ensino.',
+                    beneficiados: '158.209'
+                },
+                cultura: {
+                    icone: 'theater_comedy',
+                    titulo: 'Educação pela Cultura',
+                    descricao: 'Um programa que promove a inclusão de atividades pedagógicas não tradicionais, resgatando a cultura popular brasileira, especialmente a afro-brasileira e a indígena, por meio da formação de professores. O programa busca valorizar a identidade e os saberes locais, incentivando a criatividade e a multiplicidade de formas de expressão cultural nos alunos e educadores, contemplando projetos como EDUCAÇÃO INTEGRAL e CAPOEIRA INCLUSIVA.',
+                    beneficiados: '158.367'
+                },
+                profissionalizante: {
+                    icone: 'work',
+                    titulo: 'Educação Profissionalizante',
+                    descricao: 'O Instituto Alpargatas promove projetos de educação profissionalizante por meio de parcerias com prefeituras locais, como em Guarabira e Fagundes, oferecendo cursos gratuitos para qualificar jovens e adultos para o mercado de trabalho. Além disso, o instituto apoia a educação em diversas frentes, incluindo programas como o prêmio "Educador Nota 10" e iniciativas de capacitação como os Laboratórios de Inovação e Sustentabilidade Educacional (LISE).',
+                    beneficiados: '4.119'
+                }
+            };
 
+            const seletorContainer = document.getElementById('projeto-seletor');
+            const projetoContainer = document.getElementById('projeto-container');
+            const projetoBtns = document.querySelectorAll('.projeto-btn');
+
+            function updateProjectView(projetoKey) {
+                const projeto = projetosData[projetoKey];
+                if (!projeto) return;
+
+                // Atualiza o conteúdo
+                projetoContainer.innerHTML = `
+                    <div class="grid md:grid-cols-3 gap-8 items-center text-center md:text-left fade-in">
+                        <div class="md:col-span-1 flex flex-col items-center">
+                            <span class="material-symbols-outlined text-6xl mb-4" style="color: var(--cor-acento);">${projeto.icone}</span>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold" style="color: var(--cor-primaria);">${projeto.beneficiados}</p>
+                                <p class="text-sm text-gray-500 uppercase font-medium">Total de Beneficiados</p>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <h3 class="text-2xl font-bold mb-3" style="color: var(--cor-acento);">${projeto.titulo}</h3>
+                            <p class="text-gray-600 leading-relaxed text-justify">${projeto.descricao}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Atualiza o estilo dos botões
+                projetoBtns.forEach(btn => {
+                    btn.classList.remove('active-btn');
+                    if(btn.dataset.projeto === projetoKey) {
+                        btn.classList.add('active-btn');
+                    }
+                });
+            }
+
+            seletorContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('projeto-btn')) {
+                    const projetoKey = e.target.dataset.projeto;
+                    updateProjectView(projetoKey);
+                }
+            });
+
+            // Exibe o primeiro projeto por padrão
+            updateProjectView('esporte');
+            
+            // --- LÓGICA DO MAPA E ANÁLISE MUNICIPAL (IQE) ---
             const iqeData = [
                 { nome: "Cabaceiras", iqe: 10.0, contexto: "Localizada no semiárido paraibano, Cabaceiras é conhecida como a 'Roliúde Nordestina' por ser cenário de muitos filmes nacionais. A cidade enfrenta os desafios do clima seco, mas possui uma forte identidade cultural.", analise: "Com um IQE máximo de 10.0, Cabaceiras é um exemplo de excelência. Este resultado indica um desempenho educacional extraordinário, com altíssima qualidade na infraestrutura escolar, equidade socioeconômica e formação docente, servindo como modelo para outros municípios da região." },
                 { nome: "Queimadas", iqe: 9.27, contexto: "Integrando a região metropolitana de Campina Grande, Queimadas é um município com forte atividade industrial e comercial, o que reflete em uma dinâmica socioeconômica mais robusta em comparação com cidades do interior.", analise: "O IQE de 9.27 posiciona Queimadas como um município de altíssimo desempenho. A nota reflete não apenas excelentes resultados de aprendizagem, mas também uma infraestrutura escolar de qualidade e bons indicadores de equidade, potencializados pelo contexto econômico favorável." },
@@ -354,11 +419,11 @@
             const analiseMunicipioNome = document.getElementById('analise-municipio-nome');
 
             function getIqeColor(iqe) {
-                if (iqe >= 9) return '#006d2c';  // Excelente
-                if (iqe >= 7) return '#2ca25f';  // Bom
-                if (iqe >= 5) return '#66c2a4';  // Médio-Alto
-                if (iqe >= 3) return '#a6d96a';  // Médio-Baixo
-                return '#fdae61';                // Baixo
+                if (iqe >= 9) return '#1a9850';  // Verde escuro (Excelente)
+                if (iqe >= 7) return '#66c2a5';  // Verde claro (Bom)
+                if (iqe >= 5) return '#fee08b';  // Amarelo (Médio)
+                if (iqe >= 3) return '#f46d43';  // Laranja (Atenção)
+                return '#d73027';                // Vermelho (Crítico)
             }
             
             function updateMunicipioAnalise() {
@@ -469,4 +534,3 @@
     </script>
 </body>
 </html>
-
