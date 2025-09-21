@@ -55,8 +55,12 @@ def calcular_iqe():
 
 # Bloco de execução principal (para rodar o iqe.py sozinho e gerar o CSV)
 if __name__ == "__main__":
-    df_final_completo = calcular_iqe()
-    if not df_final_completo.empty:
-        colunas_resultado = ['cod_municipio', 'nome_municipio', 'ds_uf', 'IQE']
-        df_final_completo[colunas_resultado].to_csv("resultado_iqe_municipal.csv", index=False, sep=';', encoding='utf-8-sig')
-        print("\nArquivo 'resultado_iqe_municipal.csv' gerado com sucesso.")
+    df_iqe = calcular_iqe()
+    # Define as colunas para o resultado final limpo
+    colunas_resultado = ['cod_municipio', 'nome_municipio', 'ds_uf', 'IQE']
+    df_para_exibir_e_salvar = df_iqe[colunas_resultado]
+    # --- MUDANÇA APLICADA AQUI ---
+        # Adiciona o print do DataFrame final no console
+    print("\n\n--- RESULTADO FINAL: ÍNDICE DE QUALIDADE DA EDUCAÇÃO (IQE) ---")
+    print(f"O IQE foi calculado para {len(df_para_exibir_e_salvar)} municípios.")
+    print(df_para_exibir_e_salvar)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Impacto Social - Instituto Alpargatas</title>
+    <title>Portal de Transparência: Instituto Alpargatas</title>
     <!-- Incluindo Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Incluindo Plotly.js para os gráficos -->
@@ -47,35 +47,37 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-        .btn-acento {
-            background-color: var(--cor-acento);
-            color: white;
-            font-weight: bold;
+        .btn-audio {
+            background-color: var(--cor-fundo);
+            color: var(--cor-primaria);
+            font-weight: 500;
             border-radius: 50px;
             padding: 0.75rem 1.5rem;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
-        .btn-acento:hover {
-            transform: scale(1.05);
-            background-color: #e05a1a;
+        .btn-audio:hover {
+            background-color: #e2e8f0;
+            color: var(--cor-primaria);
         }
-        /* Estilos para a legenda do mapa Leaflet */
+        .btn-audio.playing {
+            background-color: #fff7ed;
+            border-color: #fb923c;
+            color: #c2410c;
+        }
         .leaflet-control-container .legend {
-            padding: 6px 8px;
-            font: 14px/16px Arial, Helvetica, sans-serif;
-            background: white;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
-            line-height: 18px;
-            color: #555;
+            padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white; background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px;
+            line-height: 18px; color: #555;
         }
         .leaflet-control-container .legend i {
-            width: 18px;
-            height: 18px;
-            float: left;
-            margin-right: 8px;
-            opacity: 0.9;
+            width: 18px; height: 18px; float: left;
+            margin-right: 8px; opacity: 0.9;
         }
         /* Animação */
         @keyframes fadeIn {
@@ -83,6 +85,17 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .fade-in { animation: fadeIn 1s ease-out forwards; }
+        
+        /* Estilos customizados para o seletor */
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B7280'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.5em 1.5em;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -94,45 +107,36 @@
                 <img src="IA.png" alt="Logo IA" class="h-10 w-10">
                 <span class="text-xl font-bold text-gray-700">Instituto Alpargatas</span>
             </div>
-            <!-- Navegação para Desktop -->
+            <!-- Menu Desktop -->
             <nav class="hidden md:flex space-x-6">
                 <a href="#quem-somos" class="nav-link text-gray-600 font-medium">Quem Somos</a>
                 <a href="#o-que-fazemos" class="nav-link text-gray-600 font-medium">O Que Fazemos</a>
-                <a href="#iie" class="nav-link text-gray-600 font-medium">Índice IIE</a>
-                <a href="#destaques" class="nav-link text-gray-600 font-medium">Destaques</a>
+                <a href="#iqe-mapa" class="nav-link text-gray-600 font-medium">Mapa IQE</a>
+                <a href="#analise-municipal" class="nav-link text-gray-600 font-medium">Análise Municipal</a>
                 <a href="#inteligencia" class="nav-link text-gray-600 font-medium">Inteligência Municipal</a>
             </nav>
-            <!-- Botão do Menu Mobile -->
-            <div class="md:hidden flex items-center">
-                <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
-                    <span class="material-symbols-outlined text-3xl">menu</span>
+            <!-- Botão Menu Mobile -->
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-700 focus:outline-none">
+                    <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
         </div>
-    </header>
-
-    <!-- Menu Mobile (Overlay) -->
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-white z-50 p-6">
-        <div class="flex justify-end">
-            <button id="mobile-menu-close-button" class="focus:outline-none">
-                <span class="material-symbols-outlined text-4xl">close</span>
-            </button>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white">
+            <a href="#quem-somos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Quem Somos</a>
+            <a href="#o-que-fazemos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">O Que Fazemos</a>
+            <a href="#iqe-mapa" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Mapa IQE</a>
+            <a href="#analise-municipal" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Análise Municipal</a>
+            <a href="#inteligencia" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Inteligência Municipal</a>
         </div>
-        <nav class="flex flex-col items-center justify-center h-full -mt-12 space-y-8">
-            <a href="#quem-somos" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Quem Somos</a>
-            <a href="#o-que-fazemos" class="text-2xl text-gray-700 font-semibold mobile-nav-link">O Que Fazemos</a>
-            <a href="#iie" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Índice IIE</a>
-            <a href="#destaques" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Destaques</a>
-            <a href="#inteligencia" class="text-2xl text-gray-700 font-semibold mobile-nav-link">Inteligência Municipal</a>
-        </nav>
-    </div>
-
+    </header>
 
     <main>
         <!-- Seção: Quem Somos -->
         <section id="quem-somos" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-5xl section-title mb-6 fade-in">Democratizando o Acesso à Informação e o Impacto Social</h1>
+                <h1 class="text-4xl md:text-5xl section-title mb-6 fade-in">Portal de Transprarência: Instituto Alpargatas</h1>
                 <p class="max-w-4xl mx-auto text-lg text-gray-600 leading-relaxed fade-in" style="animation-delay: 200ms;">
                     Neste cenário complexo da educação brasileira, o <strong>Instituto Alpargatas</strong> posiciona-se como uma organização do terceiro setor, de caráter privado e sem fins lucrativos, cuja missão é catalisar a melhoria da qualidade da educação pública. Atuando em regime de colaboração com o poder público, o Instituto desenvolve e implementa projetos que visam fortalecer a gestão educacional, qualificar as práticas pedagógicas e promover o engajamento das comunidades escolares.
                 </p>
@@ -163,40 +167,52 @@
             </div>
         </section>
 
-        <!-- Seção: Índice de Igualdade de Ensino (IIE) -->
-        <section id="iie" class="py-16 md:py-24">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[var(--cor-primaria)]">
-                    IIE - Índice de Impacto Educacional
-                </h2>
-                <p class="text-center text-lg text-gray-600 mb-2 max-w-3xl mx-auto">
-                    O IIE é uma iniciativa em desenvolvimento para medir e visualizar o impacto das nossas ações na educação municipal.
-                </p>
-                <p class="text-center text-md text-gray-500 mb-10 max-w-3xl mx-auto">
-                    O mapa abaixo expressa o <strong>crescimento do IDEB</strong> de cada município com atuação do Instituto, comparando a primeira (2005) e a última (2021) nota da série histórica. Municípios com maior evolução são exibidos em verde, destacando o impacto e o potencial de transformação.
-                </p>
+        <!-- Seção: Mapa IQE -->
+        <section id="iqe-mapa" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl section-title mb-4">Mapa do IQE - Índice de Qualidade da Educação</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                        Visualização do <strong>Índice de Qualidade da Educação (IQE)</strong> nos municípios de atuação do Instituto. O IQE é um indicador multidimensional (escala de 1 a 10) que avalia a educação de forma mais completa, considerando fatores como desempenho, fluxo escolar, equidade e infraestrutura.
+                    </p>
+                </div>
                 <div id="map" class="h-[600px] w-full rounded-lg shadow-lg border-2 border-gray-200"></div>
             </div>
         </section>
-
-        <!-- Seção: Destaques (Outliers e Pontos Críticos) -->
-        <section id="destaques" class="py-20">
+        
+        <!-- Seção: Análise Municipal -->
+        <section id="analise-municipal" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                     <h2 class="text-3xl md:text-4xl section-title mb-4">Análise de Desempenho Municipal</h2>
-                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Agrupamos os municípios em clusters para transformar dados em uma narrativa sobre diferentes "tipos de impacto", refletindo a interação entre as intervenções do Instituto e os diversos contextos locais.</p>
+                     <h2 class="text-3xl md:text-4xl section-title mb-4">Análise Municipal do IQE</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Selecione um município para visualizar seu Índice de Qualidade da Educação (IQE) e entender o contexto socioeconômico e os resultados detalhados.</p>
                 </div>
-                <!-- Pontos Fora da Curva -->
-                <div class="card p-8 mb-12">
-                    <h3 class="text-2xl font-bold text-green-600 mb-4">Pontos Fora da Curva: Crescimento Exponencial</h3>
-                    <p class="mb-6 text-gray-600">Este cluster é composto por municípios que apresentaram um crescimento extraordinário, mais do que dobrando seu IDEB no período. Queimadas (PB) é o caso mais emblemático, saltando de um IDEB de ~3.5 para 7.5. Esses resultados superam em muito a média de crescimento do estado da Paraíba.</p>
-                    <div id="chart-outliers" class="w-full h-96"></div>
-                </div>
-                <!-- Pontos Críticos -->
-                <div class="card p-8">
-                    <h3 class="text-2xl font-bold text-red-600 mb-4">Pontos Críticos: Desafios Persistentes</h3>
-                    <p class="mb-6 text-gray-600">Este cluster é formado por municípios que, apesar de terem crescido, partiram de patamares muito baixos e/ou apresentaram um ritmo de crescimento mais lento. Casos como Itatuba e Santa Rita, que evoluíram para um IDEB de 4.4, ainda indicam desafios significativos que demandam uma análise mais aprofundada.</p>
-                    <div id="chart-critical" class="w-full h-96"></div>
+                
+                <div class="card p-8 max-w-4xl mx-auto">
+                    <div class="mb-8">
+                        <label for="municipio-select" class="block text-sm font-medium text-gray-700 mb-2">Selecione o Município:</label>
+                        <select id="municipio-select" class="custom-select mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md shadow-sm"></select>
+                    </div>
+
+                    <div id="analise-container" class="grid lg:grid-cols-2 gap-8 items-center opacity-0 transition-opacity duration-500">
+                        <!-- Coluna do Gráfico/Animação -->
+                        <div class="space-y-4">
+                            <h3 id="analise-municipio-nome" class="text-2xl lg:text-3xl font-bold text-center" style="color: var(--cor-acento);"></h3>
+                            <div class="bg-gray-200 rounded-full h-5 w-full overflow-hidden">
+                                <div id="iqe-linha" class="h-5 rounded-full transition-all duration-1000 ease-out flex items-center justify-end pr-2" style="width: 0%;">
+                                     <span id="iqe-valor-texto-linha" class="text-white font-bold text-sm"></span>
+                                </div>
+                            </div>
+                            <p class="text-center text-gray-600 font-medium">Nível do IQE (1 a 10)</p>
+                        </div>
+                        <!-- Coluna do Texto -->
+                        <div id="analise-texto-container">
+                             <h3 class="text-xl font-bold text-gray-800 mb-2">Contexto Municipal</h3>
+                             <p id="iqe-contexto" class="text-gray-600 mb-4 text-justify"></p>
+                             <h3 class="text-xl font-bold text-gray-800 mb-2">Análise do IQE</h3>
+                             <p id="iqe-analise" class="text-gray-600 text-justify"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -204,25 +220,24 @@
         <!-- Seção: Inteligência Municipal -->
         <section id="inteligencia" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal</h2>
+                 <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal com Análise em Áudio</h2>
                 <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-8">
-                    Faça uma pergunta para receber um insight sobre os dados educacionais. Para a pergunta específica sobre Queimadas, a resposta será acompanhada de áudio.
+                    Clique em uma das análises pré-definidas para ouvir um resumo sobre os destaques e desafios encontrados nos municípios parceiros.
                 </p>
                 <div class="card max-w-2xl mx-auto p-8 text-left">
-                    <textarea id="ai-prompt" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-orange-400" rows="3" placeholder="Ex: Compare o crescimento do IDEB de Queimadas com a média da Paraíba."></textarea>
-                    <button id="ai-button" class="btn-acento w-full flex items-center justify-center">
-                        <span class="material-symbols-outlined mr-2">auto_awesome</span>
-                        Gerar Análise
-                    </button>
-                    <div id="ai-response-container" class="mt-6 hidden">
-                        <div class="flex items-center justify-between mb-2">
-                           <h4 class="font-bold text-lg text-gray-800">Análise:</h4>
-                            <button id="audio-button" class="text-gray-500 hover:text-orange-500 transition-colors disabled:opacity-50 disabled:cursor-wait hidden" title="Ouvir análise">
-                                <span class="material-symbols-outlined">volume_up</span>
-                            </button>
-                        </div>
+                    <div class="space-y-4 mb-6">
+                        <button class="btn-audio" data-audio-key="queimadas">
+                            <span class="material-symbols-outlined mr-3">play_circle</span>
+                            <span class="flex-1 text-left">Análise de Destaque: O caso de Queimadas</span>
+                        </button>
+                         <button class="btn-audio" data-audio-key="criticos">
+                            <span class="material-symbols-outlined mr-3">play_circle</span>
+                            <span class="flex-1 text-left">Análise de Atenção: Os Pontos Críticos</span>
+                        </button>
+                    </div>
+                    <div id="ai-response-container" class="hidden">
+                        <h4 class="font-bold text-lg mb-2 text-gray-800">Análise em Texto:</h4>
                         <div id="ai-response" class="p-4 bg-gray-50 rounded-md text-gray-700 leading-relaxed"></div>
-                        <audio id="ai-audio-player" class="hidden"></audio>
                     </div>
                 </div>
             </div>
@@ -233,318 +248,219 @@
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 Instituto Alpargatas. Todos os direitos reservados.</p>
-            <p class="text-sm text-gray-400 mt-2">Uma Análise de Impacto do IDEB, Censo Escolar, Saeb e Propostas para a Equidade Educacional.</p>
+            <p class="text-sm text-gray-400 mt-2">Uma Análise de Impacto do IQE, Censo Escolar e Saeb.</p>
         </div>
     </footer>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- LÓGICA DO MENU MOBILE ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-            function toggleMenu() {
-                mobileMenu.classList.toggle('hidden');
-            }
-
-            mobileMenuButton.addEventListener('click', toggleMenu);
-            mobileMenuCloseButton.addEventListener('click', toggleMenu);
-
-            // Fecha o menu quando um link é clicado
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', toggleMenu);
-            });
-
-            // --- LINK PARA O ÁUDIO ---
-            const audioUrlQueimadas = "https://raw.githubusercontent.com/deivysonhgr8/audio/main/audio/audio_completo.wav";
-
-            // --- DADOS COMPLETOS ---
-            const idebData = {
-                'Ano': [2005, 2007, 2009, 2011, 2013, 2015, 2017, 2019, 2021, 2023],
-                'Queimadas': [2.9, 3.2, 3.5, 4.0, 3.7, 4.9, 5.2, 5.5, 6.1, 7.9],
-                'Cabaceiras': [2.6, 3.4, 4.9, 5.4, 5.6, 6.0, 6.4, 6.1, 6.6, 7.6],
-                'Lagoa Seca': [2.6, 3.7, 4.4, 4.3, 4.6, 4.9, 4.7, 5.3, 4.9, 5.45],
-                'Itatuba': [2.5, 2.95, 2.65, 3.3, 3.55, 3.95, 3.9, 4.5, 4.4, 4.5],
-                'Santa Rita': [2.6, 2.8, 3.3, 3.7, 3.6, 3.75, 4.0, 4.2, 4.1, 4.5],
-                'Serra Redonda': [2.1, 3.4, 3.5, 3.0, 4.0, 4.4, 3.6, 4.1, 4.4, 4.5],
-                'Paraíba': [2.7, 3.1, 3.6, 3.8, 4.0, 4.4, 4.6, 4.8, 4.9, 5.2]
-            };
             
-            const plotlyConfig = { responsive: true, displaylogo: false, displayModeBar: false };
-            const ANOS_IDEB = idebData.Ano;
+            // --- MENU MOBILE ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            
+            menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            mobileLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
 
             // --- NAVEGAÇÃO ATIVA ---
             const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a.nav-link');
+            const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
             window.onscroll = () => {
-                let current = '';
+                let current = 'quem-somos';
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 68) { current = section.getAttribute('id'); }
+                    if (pageYOffset >= sectionTop - 70) { current = section.getAttribute('id'); }
                 });
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href').includes(current)) { link.classList.add('active'); }
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
                 });
             };
-
-            // --- GRÁFICOS ---
-            function createClusterChart(elementId, municipios, colors, annotations = []) {
-                const traces = municipios.map((municipio, index) => ({
-                    x: ANOS_IDEB,
-                    y: idebData[municipio],
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    name: municipio,
-                    line: { color: colors[index], width: 3.5 }, // Linha mais espessa
-                    marker: { size: 9 }, // Marcador maior
-                    hovertemplate: `<b>${municipio}</b><br>Ano: %{x}<br>IDEB: %{y:.2f}<extra></extra>`
-                }));
-
-                const layout = {
-                    xaxis: { title: 'Ano', gridcolor: '#e5e7eb', fixedrange: true },
-                    yaxis: { title: 'IDEB Médio', gridcolor: '#e5e7eb', fixedrange: true },
-                    hovermode: 'x unified',
-                    legend: {
-                        orientation: 'h',      // Orientação horizontal
-                        yanchor: 'bottom',
-                        y: -0.4,               // Posição abaixo do gráfico
-                        xanchor: 'center',
-                        x: 0.5,
-                        title: { text: 'Municípios' }
-                    },
-                    paper_bgcolor: 'transparent',
-                    plot_bgcolor: 'transparent',
-                    margin: { l: 50, r: 20, t: 40, b: 100 }, // Margem inferior aumentada para a legenda
-                    annotations: annotations
-                };
-                Plotly.newPlot(elementId, traces, layout, plotlyConfig);
-            }
-
-            // Anotação para o gráfico de outliers
-            const outlierAnnotations = [{
-                x: idebData.Ano[idebData.Ano.length - 1], // Último ano
-                y: idebData.Queimadas[idebData.Queimadas.length - 1], // Último IDEB de Queimadas
-                xref: 'x', yref: 'y',
-                text: `<b>Auge: ${idebData.Queimadas[idebData.Queimadas.length - 1]}</b>`,
-                showarrow: true, font: { family: 'Inter, sans-serif', size: 13, color: '#ffffff' },
-                align: 'center', arrowhead: 2, arrowsize: 1, arrowwidth: 2,
-                arrowcolor: '#16a34a', ax: 0, ay: -40,
-                bordercolor: '#16a34a', borderwidth: 2, borderpad: 4,
-                bgcolor: '#16a34a', opacity: 0.9
-            }];
-
-            createClusterChart('chart-outliers', ['Queimadas', 'Cabaceiras', 'Lagoa Seca'], ['#16a34a', '#22c55e', '#4ade80'], outlierAnnotations);
-            createClusterChart('chart-critical', ['Itatuba', 'Santa Rita', 'Serra Redonda'], ['#dc2626', '#ef4444', '#f87171']);
-
-
-            // --- INTELIGÊNCIA MUNICIPAL ---
-            const aiButton = document.getElementById('ai-button');
-            const aiPrompt = document.getElementById('ai-prompt');
+            
+            // --- ÁUDIO PRÉ-GRAVADO ---
+            const audioPlayer = new Audio();
+            let currentlyPlayingButton = null;
             const aiResponseContainer = document.getElementById('ai-response-container');
             const aiResponse = document.getElementById('ai-response');
-            const audioButton = document.getElementById('audio-button');
-            const audioPlayer = document.getElementById('ai-audio-player');
+            const audioData = {
+                'queimadas': { text: "Análise de Destaque: Queimadas. Com um impressionante IQE de 9.27, Queimadas se posiciona como um município de altíssimo desempenho educacional. Este índice reflete não apenas excelentes resultados de aprendizagem, mas também uma infraestrutura escolar de qualidade e bons indicadores de equidade, mostrando um sistema educacional robusto e eficaz.", src: 'audio_completo.wav' },
+                'criticos': { text: "Análise de Atenção: Pontos Críticos. Municípios como Itatuba, com IQE de 1.0, e Santa Rita, com 1.69, representam pontos de atenção máxima. Estes índices extremamente baixos sinalizam uma emergência educacional, com desafios críticos em todas as dimensões avaliadas, como infraestrutura, desempenho e equidade. Estes casos demandam apoio intensivo e urgente.", src: 'data:audio/wav;base64,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' }
+            };
 
-            aiButton.addEventListener('click', () => {
-                const prompt = aiPrompt.value.trim().toLowerCase();
-                if (!prompt) {
-                    aiResponse.innerHTML = "Por favor, insira uma pergunta.";
-                    aiResponseContainer.style.display = 'block';
-                    return;
+            const audioButtons = document.querySelectorAll('.btn-audio');
+            const updateButtonUI = (button, isPlaying) => {
+                const icon = button.querySelector('span.material-symbols-outlined');
+                icon.textContent = isPlaying ? 'pause_circle' : 'play_circle';
+                button.classList.toggle('playing', isPlaying);
+            };
+
+            audioButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const audioKey = button.dataset.audioKey;
+                    aiResponse.innerHTML = `<p>${audioData[audioKey].text}</p>`;
+                    aiResponseContainer.classList.remove('hidden');
+
+                    if (currentlyPlayingButton === button) {
+                        if (audioPlayer.paused) { audioPlayer.play(); } else { audioPlayer.pause(); }
+                    } else {
+                        if (currentlyPlayingButton) { updateButtonUI(currentlyPlayingButton, false); }
+                        audioPlayer.src = audioData[audioKey].src;
+                        audioPlayer.play();
+                        currentlyPlayingButton = button;
+                    }
+                });
+            });
+
+            audioPlayer.addEventListener('play', () => { if (currentlyPlayingButton) updateButtonUI(currentlyPlayingButton, true); });
+            audioPlayer.addEventListener('pause', () => { if (currentlyPlayingButton) updateButtonUI(currentlyPlayingButton, false); });
+            audioPlayer.addEventListener('ended', () => {
+                if (currentlyPlayingButton) {
+                    updateButtonUI(currentlyPlayingButton, false);
+                    currentlyPlayingButton = null;
                 }
+            });
+            
+            // --- LÓGICA DO MAPA E ANÁLISE MUNICIPAL (IQE) ---
+
+            const iqeData = [
+                { nome: "Cabaceiras", iqe: 10.0, contexto: "Localizada no semiárido paraibano, Cabaceiras é conhecida como a 'Roliúde Nordestina' por ser cenário de muitos filmes nacionais. A cidade enfrenta os desafios do clima seco, mas possui uma forte identidade cultural.", analise: "Com um IQE máximo de 10.0, Cabaceiras é um exemplo de excelência. Este resultado indica um desempenho educacional extraordinário, com altíssima qualidade na infraestrutura escolar, equidade socioeconômica e formação docente, servindo como modelo para outros municípios da região." },
+                { nome: "Queimadas", iqe: 9.27, contexto: "Integrando a região metropolitana de Campina Grande, Queimadas é um município com forte atividade industrial e comercial, o que reflete em uma dinâmica socioeconômica mais robusta em comparação com cidades do interior.", analise: "O IQE de 9.27 posiciona Queimadas como um município de altíssimo desempenho. A nota reflete não apenas excelentes resultados de aprendizagem, mas também uma infraestrutura escolar de qualidade e bons indicadores de equidade, potencializados pelo contexto econômico favorável." },
+                { nome: "Montes Claros", iqe: 7.85, contexto: "Principal centro urbano do norte de Minas Gerais, Montes Claros é um polo de serviços, educação e saúde para uma vasta região. Enfrenta os desafios de uma cidade de grande porte, com diversidade socioeconômica.", analise: "Atingir um IQE de 7.85 é um resultado sólido e muito positivo para um centro regional como Montes Claros. Indica um sistema educacional bem estruturado, com boa qualidade de ensino e infraestrutura, conseguindo manter um padrão elevado apesar da complexidade urbana." },
+                { nome: "Campina Grande", iqe: 5.61, contexto: "Reconhecida como um dos principais polos tecnológicos e universitários do Nordeste, Campina Grande possui uma economia diversificada e uma população com alto nível de instrução em comparação com a média regional.", analise: "O IQE de 5.61 é considerado bom, mas com espaço para melhorias. Reflete a força da infraestrutura e do capital humano da cidade. No entanto, o índice sugere que ainda existem desafios para garantir que a qualidade educacional seja uniforme em todas as escolas, especialmente nas áreas periféricas." },
+                { nome: "São Paulo", iqe: 5.11, contexto: "Maior metrópole do Brasil, São Paulo é um centro de imensa diversidade, oportunidades e profundas desigualdades socioeconômicas, o que impõe desafios gigantescos para a gestão da educação pública.", analise: "Um IQE de 5.11 é um indicador de qualidade média e evidencia a complexidade da gestão educacional paulistana. O resultado mostra que, apesar dos recursos disponíveis, a desigualdade entre as diferentes regiões da cidade impacta fortemente a equidade e a qualidade geral da educação." },
+                { nome: "Carpina", iqe: 4.44, contexto: "Localizado na Zona da Mata de Pernambuco, Carpina é um importante centro comercial da região, com uma economia baseada no comércio, serviços e na indústria canavieira.", analise: "Com um IQE de 4.44, Carpina está em um patamar intermediário, indicando que existem bases sólidas, mas também desafios importantes a serem superados. A análise sugere a necessidade de foco em áreas como a qualificação docente e a melhoria da infraestrutura para impulsionar a qualidade." },
+                { nome: "João Pessoa", iqe: 4.40, contexto: "Capital da Paraíba, João Pessoa é um centro administrativo e turístico com uma boa infraestrutura urbana. A cidade, no entanto, também apresenta bolsões de vulnerabilidade social em suas periferias.", analise: "O IQE de 4.40 para a capital paraibana é um sinal de alerta. Embora a cidade possua recursos, o índice aponta para desafios na garantia de uma educação de alta qualidade de forma equitativa para todos os alunos, indicando que melhorias na infraestrutura e na equidade são necessárias." },
+                { nome: "Lagoa Seca", iqe: 3.94, contexto: "Vizinha a Campina Grande, Lagoa Seca tem uma economia com forte base na agricultura e no comércio local, sendo influenciada pela proximidade com um grande centro urbano.", analise: "Um IQE de 3.94 coloca Lagoa Seca em um nível de atenção. O resultado sugere que, embora haja potencial, fatores como infraestrutura escolar e o nível socioeconômico médio dos alunos podem estar limitando um avanço mais significativo na qualidade da educação." },
+                { nome: "Guarabira", iqe: 3.05, contexto: "Polo da região do Brejo Paraibano, Guarabira é um centro comercial e de serviços para os municípios do entorno, com uma economia diversificada que inclui agricultura e comércio.", analise: "O IQE de 3.05 indica desafios estruturais importantes no sistema educacional. A nota aponta para a necessidade de investimentos consistentes em múltiplas áreas, desde a infraestrutura das escolas até a formação continuada dos professores, para reverter o quadro atual." },
+                { nome: "Alagoa Nova", iqe: 2.94, contexto: "Município localizado no Brejo Paraibano, com economia predominantemente agrícola, especialmente cana-de-açúcar e fruticultura. Apresenta indicadores socioeconômicos modestos.", analise: "Com um IQE de 2.94, Alagoa Nova enfrenta desafios consideráveis. O baixo índice reflete dificuldades em componentes essenciais como infraestrutura e qualificação docente, que impactam diretamente a aprendizagem dos alunos. Ações focadas são cruciais." },
+                { nome: "Caturité", iqe: 2.60, contexto: "Pequeno município no Agreste Paraibano, com base econômica na agropecuária e uma população de baixa densidade demográfica.", analise: "O IQE de 2.60 sinaliza a existência de desafios significativos e a necessidade de atenção especial. Este resultado sugere que a infraestrutura escolar e os indicadores socioeconômicos são fatores críticos que precisam ser abordados para que a qualidade da educação possa melhorar." },
+                { nome: "Bananeiras", iqe: 2.50, contexto: "Conhecida pelo clima ameno no Brejo Paraibano, Bananeiras tem forte apelo turístico e uma economia que também envolve a agricultura. Possui um contexto socioeconômico heterogêneo.", analise: "Um IQE de 2.50 indica que o município está em um ponto crítico. Apesar de seu potencial turístico, a educação básica enfrenta grandes desafios, provavelmente ligados à infraestrutura e à necessidade de maior investimento na qualificação dos educadores." },
+                { nome: "Ingá", iqe: 2.45, contexto: "Famosa pela Pedra do Ingá, um importante monumento arqueológico, a cidade de Ingá, no Agreste Paraibano, tem sua economia centrada na agricultura e no funcionalismo público.", analise: "Com um IQE de 2.45, Ingá também se encontra em uma situação que requer atenção. A nota sugere que as condições de oferta de ensino, como infraestrutura e recursos pedagógicos, são um gargalo importante para a melhoria da qualidade educacional." },
+                { nome: "Mogeiro", iqe: 2.22, contexto: "Município do Agreste Paraibano, com economia baseada na agricultura de subsistência e na pecuária, apresentando um perfil socioeconômico de vulnerabilidade.", analise: "O IQE de 2.22 reflete os desafios socioeconômicos enfrentados pelo município. O resultado aponta para a necessidade de intervenções estruturantes, focadas em melhorar as condições básicas das escolas e apoiar os docentes para garantir uma aprendizagem mais eficaz." },
+                { nome: "Serra Redonda", iqe: 1.83, contexto: "Pequeno município localizado na mesorregião do Agreste Paraibano, com economia baseada principalmente na agricultura e na pecuária.", analise: "Um IQE de 1.83 indica uma situação educacional muito crítica. Este valor sugere deficiências graves em múltiplos fatores do índice, demandando um plano de ação emergencial para fortalecer a infraestrutura, a gestão e as práticas pedagógicas." },
+                { nome: "Santa Rita", iqe: 1.69, contexto: "Integrando a região metropolitana de João Pessoa, Santa Rita é um dos municípios mais populosos da Paraíba, com uma economia industrial forte, mas também com grandes desafios sociais e de infraestrutura urbana.", analise: "O IQE de 1.69 é extremamente baixo para um município com a importância econômica de Santa Rita. O resultado evidencia que o desenvolvimento industrial não se traduziu em qualidade educacional, apontando para profundas desigualdades e carências estruturais no sistema de ensino." },
+                { nome: "Itatuba", iqe: 1.0, contexto: "Município situado no Agreste Paraibano, com uma economia de base agrícola e um dos menores Índices de Desenvolvimento Humano (IDH) do estado.", analise: "A nota mínima de 1.0 no IQE sinaliza um cenário de emergência educacional. Este resultado indica que o município enfrenta desafios críticos em todas as dimensões avaliadas, necessitando de um apoio intensivo e urgente para reverter a situação e garantir o direito básico à educação de qualidade." }
+            ];
+
+            const municipioSelect = document.getElementById('municipio-select');
+            const iqeContexto = document.getElementById('iqe-contexto');
+            const iqeAnalise = document.getElementById('iqe-analise');
+            const analiseContainer = document.getElementById('analise-container');
+            const iqeLinha = document.getElementById('iqe-linha');
+            const iqeValorTexto = document.getElementById('iqe-valor-texto-linha');
+            const analiseMunicipioNome = document.getElementById('analise-municipio-nome');
+
+            function getIqeColor(iqe) {
+                if (iqe >= 9) return '#006d2c';  // Excelente
+                if (iqe >= 7) return '#2ca25f';  // Bom
+                if (iqe >= 5) return '#66c2a4';  // Médio-Alto
+                if (iqe >= 3) return '#a6d96a';  // Médio-Baixo
+                return '#fdae61';                // Baixo
+            }
+            
+            function updateMunicipioAnalise() {
+                const selectedMunicipio = iqeData.find(m => m.nome === municipioSelect.value);
+                if (!selectedMunicipio) return;
                 
-                aiButton.disabled = true;
-                aiButton.innerHTML = '<span class="material-symbols-outlined mr-2 animate-spin">progress_activity</span> Processando...';
-                aiResponseContainer.style.display = 'block';
-                audioButton.classList.add('hidden');
-                audioPlayer.src = '';
+                analiseMunicipioNome.textContent = selectedMunicipio.nome;
+                iqeContexto.textContent = selectedMunicipio.contexto;
+                iqeAnalise.textContent = selectedMunicipio.analise;
+
+                analiseContainer.classList.remove('opacity-0');
+
+                // Animação da linha
+                const iqePercent = (selectedMunicipio.iqe / 10) * 100;
+                const iqeColor = getIqeColor(selectedMunicipio.iqe);
+                
+                iqeLinha.style.width = '0%';
+                iqeValorTexto.textContent = '';
                 
                 setTimeout(() => {
-                    let responseText = `Desculpe, não tenho uma resposta para essa pergunta. Por favor, tente a pergunta sobre a comparação do IDEB de Queimadas.`;
-                    let audioSrc = null;
+                    iqeLinha.style.backgroundColor = iqeColor;
+                    iqeLinha.style.width = `${iqePercent}%`;
+                    iqeValorTexto.textContent = selectedMunicipio.iqe.toFixed(2);
+                }, 100);
+            }
 
-                    if (prompt.includes("queimadas") && prompt.includes("paraíba")) {
-                        responseText = `
-                            <p><strong>Análise Comparativa: Queimadas versus a média da Paraíba.</strong></p>
-                            <p>O município de Queimadas apresenta um desempenho notavelmente superior à média do estado. Em 2023, Queimadas alcançou um IDEB de 7.9, enquanto a média estadual foi de 5.2.</p>
-                            <p>Analisando a trajetória, o crescimento de Queimadas foi exponencial, especialmente após 2019, período de atuação intensificada do Instituto, saindo de 5.5 para 7.9. Isso representa um claro 'efeito-Instituto', com um crescimento acelerado que sugere um impacto positivo e distintivo das intervenções realizadas.</p>
-                        `;
-                        audioSrc = audioUrlQueimadas;
-                    }
-
-                    aiResponse.innerHTML = responseText;
-
-                    if (audioSrc) {
-                        audioPlayer.src = audioSrc;
-                        audioButton.classList.remove('hidden');
-                        audioButton.disabled = false;
-                        audioButton.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
-                    }
-
-                    aiButton.disabled = false;
-                    aiButton.innerHTML = '<span class="material-symbols-outlined mr-2">auto_awesome</span> Gerar Análise';
-                }, 500);
+            // Popula o seletor
+            iqeData.sort((a, b) => a.nome.localeCompare(b.nome));
+            iqeData.forEach(mun => {
+                const option = document.createElement('option');
+                option.value = mun.nome;
+                option.textContent = mun.nome;
+                municipioSelect.appendChild(option);
             });
+            municipioSelect.addEventListener('change', updateMunicipioAnalise);
+            updateMunicipioAnalise(); // Chama para exibir o primeiro da lista
 
-            audioButton.addEventListener('click', () => {
-                if (!audioPlayer.src) return;
-                if (audioPlayer.paused || audioPlayer.ended) {
-                    if (audioPlayer.ended) audioPlayer.currentTime = 0;
-                    audioPlayer.play();
-                } else {
-                    audioPlayer.pause();
-                }
-            });
 
-            audioPlayer.addEventListener('play', () => { audioButton.innerHTML = '<span class="material-symbols-outlined">pause</span>'; });
-            audioPlayer.addEventListener('pause', () => { audioButton.innerHTML = '<span class="material-symbols-outlined">play_arrow</span>'; });
-            audioPlayer.addEventListener('ended', () => { audioButton.innerHTML = '<span class="material-symbols-outlined">replay</span>'; });
-
-            // --- LÓGICA DO MAPA IIE ---
+            // --- LÓGICA DO MAPA IQE ---
             const map = L.map('map').setView([-7.9, -36.5], 7);
-
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             }).addTo(map);
 
-            const idebMapData = [
-                { municipio: "ALAGOA NOVA", uf: "PB", crescimento: 1.6, info: "de 3.2 para 4.8" },
-                { municipio: "BANANEIRAS", uf: "PB", crescimento: 1.8, info: "de 3.4 para 5.2" },
-                { municipio: "CABACEIRAS", uf: "PB", crescimento: 3.6, info: "de 3.2 para 6.8" },
-                { municipio: "CAMPINA GRANDE", uf: "PB", crescimento: 1.9, info: "de 3.6 para 5.5" },
-                { municipio: "CARPINA", uf: "PE", crescimento: 1.2, info: "de 3.8 para 5.0" },
-                { municipio: "INGÁ", uf: "PB", crescimento: 1.5, info: "de 3.0 para 4.5" },
-                { municipio: "ITATUBA", uf: "PB", crescimento: 1.4, info: "de 3.3 para 4.7" },
-                { municipio: "JOÃO PESSOA", uf: "PB", crescimento: 1.9, info: "de 4.0 para 5.9" },
-                { municipio: "LAGOA SECA", uf: "PB", crescimento: 1.6, info: "de 3.5 para 5.1" },
-                { municipio: "MOGEIRO", uf: "PB", crescimento: 1.1, info: "de 3.2 para 4.3" },
-                { municipio: "MONTES CLAROS", uf: "MG", crescimento: 1.5, info: "de 4.7 para 6.2" },
-                { municipio: "QUEIMADAS", uf: "PB", crescimento: 4.0, info: "de 3.5 para 7.5" },
-                { municipio: "SANTA RITA", uf: "PB", crescimento: 1.3, info: "de 3.3 para 4.6" },
-                { municipio: "SERRA REDONDA", uf: "PB", crescimento: 1.1, info: "de 3.3 para 4.4" },
-            ];
+            const iqeMap = new Map(iqeData.map(d => [d.nome.toUpperCase(), d.iqe]));
 
-            function formatarNome(nome) {
-                if (!nome) return '';
-                return nome.toUpperCase()
-                           .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
-                           .replace(/[-.!?'`()]/g, "")
-                           .replace(/\s+/g, '');
-            }
-            
-            const idebMap = new Map(idebMapData.map(d => [formatarNome(d.municipio), {crescimento: d.crescimento, info: d.info}]));
-
-            function getColor(crescimento) {
-                return crescimento > 3.0 ? '#1a9850' :
-                       crescimento > 2.0 ? '#66bd63' :
-                       crescimento > 1.7 ? '#a6d96a' :
-                       crescimento > 1.4 ? '#fee08b' :
-                       crescimento > 1.2 ? '#fdae61' :
-                                            '#d73027';
-            }
-            
             function style(feature) {
-                const nomeFormatado = formatarNome(feature.properties.name);
-                const data = idebMap.get(nomeFormatado);
-
-                if (data === undefined) {
-                    return {
-                        fillColor: 'transparent',
-                        weight: 0.5,
-                        opacity: 0.4,
-                        color: '#AAA',
-                        fillOpacity: 0.0
-                    };
-                }
-
+                const nomeMunicipio = feature.properties.name.toUpperCase();
+                const iqe = iqeMap.get(nomeMunicipio);
                 return {
-                    fillColor: getColor(data.crescimento),
-                    weight: 1.5,
+                    fillColor: iqe ? getIqeColor(iqe) : 'transparent',
+                    weight: iqe ? 1.5 : 0.5,
                     opacity: 1,
-                    color: '#FFF',
-                    dashArray: '3',
-                    fillOpacity: 0.8
+                    color: iqe ? '#FFF' : '#AAA',
+                    dashArray: iqe ? '3' : '',
+                    fillOpacity: iqe ? 0.8 : 0.0
                 };
             }
             
             function highlightFeature(e) {
                 const layer = e.target;
-                layer.setStyle({
-                    weight: 4,
-                    color: 'var(--cor-primaria)',
-                    dashArray: '',
-                    fillOpacity: 0.9
-                });
-                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-                    layer.bringToFront();
-                }
+                layer.setStyle({ weight: 4, color: 'var(--cor-primaria)', dashArray: '', fillOpacity: 0.9 });
+                if (!L.Browser.ie) layer.bringToFront();
             }
 
             let geojsonLayer; 
-
-            function resetHighlight(e) {
-                geojsonLayer.resetStyle(e.target);
-            }
+            const resetHighlight = (e) => geojsonLayer.resetStyle(e.target);
 
             function onEachFeature(feature, layer) {
-                const nomeFormatado = formatarNome(feature.properties.name);
-                const data = idebMap.get(nomeFormatado);
-
-                if (data !== undefined) {
-                    const popupContent = `<b>${feature.properties.name}</b><br>Crescimento IDEB: <b>+${data.crescimento.toFixed(1)}</b><br><small>(${data.info})</small>`;
-                    layer.bindPopup(popupContent);
-                    layer.on({
-                        mouseover: highlightFeature,
-                        mouseout: resetHighlight,
-                    });
-                } else {
-                    layer.off('click').off('mouseover').off('mouseout');
+                const nomeMunicipio = feature.properties.name.toUpperCase();
+                const iqe = iqeMap.get(nomeMunicipio);
+                if (iqe) {
+                    layer.bindPopup(`<b>${feature.properties.name}</b><br>IQE: <b>${iqe.toFixed(2)}</b>`);
+                    layer.on({ mouseover: highlightFeature, mouseout: resetHighlight });
                 }
             }
-
+            
             const urlsGeoJSON = {
                 'PB': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-25-mun.json',
                 'PE': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-26-mun.json',
                 'MG': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-31-mun.json',
+                'SP': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-35-mun.json'
             };
 
-            const promises = Object.values(urlsGeoJSON).map(url => fetch(url).then(res => res.json()));
-
-            Promise.all(promises).then(allGeoData => {
-                const combinedGeoData = {
-                    type: "FeatureCollection",
-                    features: allGeoData.flatMap(data => data.features)
-                };
-
-                geojsonLayer = L.geoJson(combinedGeoData, {
-                    style: style,
-                    onEachFeature: onEachFeature
-                }).addTo(map);
-                
+            Promise.all(Object.values(urlsGeoJSON).map(url => fetch(url).then(res => res.json())))
+            .then(allGeoData => {
+                const combinedGeoData = { type: "FeatureCollection", features: allGeoData.flatMap(data => data.features) };
+                geojsonLayer = L.geoJson(combinedGeoData, { style, onEachFeature }).addTo(map);
                 map.fitBounds(geojsonLayer.getBounds());
             }).catch(error => {
                 console.error("Erro ao carregar dados geográficos:", error);
-                document.getElementById('map').innerHTML = '<p class="text-center text-red-500 p-4">Não foi possível carregar o mapa. Tente novamente mais tarde.</p>';
+                document.getElementById('map').innerHTML = '<p class="text-center text-red-500 p-4">Não foi possível carregar o mapa.</p>';
             });
 
             const legend = L.control({position: 'bottomright'});
             legend.onAdd = function (map) {
                 const div = L.DomUtil.create('div', 'info legend');
-                const grades = [1.2, 1.4, 1.7, 2.0, 3.0];
-                const labels = ['<strong>Crescimento IDEB</strong><br><small>(2021 vs 2005)</small>'];
-                
-                labels.push(`<i style="background: #d73027"></i> < 1.2`);
+                const grades = [1, 3, 5, 7, 9];
+                let labels = ['<strong>IQE (1 a 10)</strong>'];
                 for (let i = 0; i < grades.length; i++) {
-                    labels.push(
-                        '<i style="background:' + getColor(grades[i] + 0.1) + '"></i> ' +
-                        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] : '+')
-                    );
+                    labels.push(`<i style="background:${getIqeColor(grades[i] + 0.1)}"></i> ${grades[i]}` + (grades[i+1] ? `&ndash;${grades[i+1]}`: '+'));
                 }
-
                 div.innerHTML = labels.join('<br>');
                 return div;
             };
@@ -553,3 +469,4 @@
     </script>
 </body>
 </html>
+
