@@ -34,3 +34,27 @@ if audio_chunks:
     audio_completo = np.concatenate(audio_chunks)
     sf.write('audio_completo.wav', audio_completo, 24000)
     print(f"Arquivo salvo: audio_completo.wav")
+
+lang_code = 'p'
+
+pipeline = KPipeline(lang_code=lang_code)
+text = '''Análise de Atenção: Pontos Críticos. Municípios como Itatuba, com IQE de 1.0, e Santa Rita, com 1.69, 
+representam pontos de atenção máxima. Estes índices extremamente baixos sinalizam uma emergência educacional, 
+com desafios críticos em todas as dimensões avaliadas, como infraestrutura, desempenho e equidade. Estes casos 
+demandam apoio intensivo e urgente.
+'''
+
+# Você pode conferir outras vozes aqui: 
+# http://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md
+voice = 'af_heart'
+generator = pipeline(text, voice='pf_dora')
+
+audio_chunks = []
+for i, (gs, ps, audio) in enumerate(generator):
+    print(i, gs, ps)
+    audio_chunks.append(audio)
+
+if audio_chunks:
+    audio_criticos = np.concatenate(audio_chunks)
+    sf.write('audio_críticos.wav', audio_criticos, 24000)
+    print(f"Arquivo salvo: audio_críticos.wav")

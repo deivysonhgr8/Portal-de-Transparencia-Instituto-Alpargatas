@@ -43,28 +43,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-        .btn-audio {
-            background-color: var(--cor-fundo);
-            color: var(--cor-primaria);
-            font-weight: 500;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-        .btn-audio:hover {
-            background-color: #e2e8f0;
-            color: var(--cor-primaria);
-        }
-        .btn-audio.playing {
-            background-color: #fff7ed;
-            border-color: #fb923c;
-            color: #c2410c;
-        }
         .leaflet-control-container .legend {
             padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif;
             background: white; background: rgba(255,255,255,0.8);
@@ -217,6 +195,69 @@
                 stroke-dashoffset: 0;
             }
         }
+        
+        /* --- [NOVO] ESTILOS PARA INTERFACE DE CHAT --- */
+        #chat-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .chat-message {
+            padding: 0.75rem 1.25rem;
+            border-radius: 1.25rem;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        .user-message {
+            background-color: var(--cor-primaria);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .bot-message {
+            background-color: #f1f5f9;
+            color: var(--cor-texto);
+            align-self: flex-start;
+            border-bottom-left-radius: 0.25rem;
+        }
+        #chat-form {
+            display: flex;
+            border-top: 1px solid #e2e8f0;
+        }
+        #chat-input {
+            flex-grow: 1;
+            border: none;
+            padding: 1rem 1.5rem;
+            outline: none;
+            background-color: #f8fafc;
+        }
+        #chat-submit {
+            background-color: var(--cor-acento);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #chat-submit:hover {
+            background-color: #dd571c;
+        }
+        .audio-player-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--cor-acento); display: inline-flex;
+            align-items: center; margin-right: 0.5rem; vertical-align: bottom;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -329,25 +370,24 @@
         </section>
 
         <section id="inteligencia" class="py-20 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                 <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal com Análise em Áudio</h2>
-                <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-8">
-                    Clique em uma das análises pré-definidas para ouvir um resumo sobre os destaques e desafios encontrados nos municípios parceiros.
-                </p>
-                <div class="card max-w-2xl mx-auto p-8 text-left">
-                    <div class="space-y-4 mb-6">
-                        <button class="btn-audio" data-audio-key="queimadas">
-                            <span class="material-symbols-outlined mr-3">play_circle</span>
-                            <span class="flex-1 text-left">Análise de Destaque: O caso de Queimadas</span>
-                        </button>
-                         <button class="btn-audio" data-audio-key="criticos">
-                            <span class="material-symbols-outlined mr-3">play_circle</span>
-                            <span class="flex-1 text-left">Análise de Atenção: Os Pontos Críticos</span>
-                        </button>
-                    </div>
-                    <div id="ai-response-container" class="hidden">
-                        <h4 class="font-bold text-lg mb-2 text-gray-800">Análise em Texto:</h4>
-                        <div id="ai-response" class="p-4 bg-gray-50 rounded-md text-gray-700 leading-relaxed"></div>
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl section-title mb-4">Inteligência Municipal Interativa</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                        Faça uma pergunta sobre os destaques ou pontos de atenção para receber uma análise em texto e áudio. Experimente perguntar sobre "Queimadas" ou "pontos críticos".
+                    </p>
+                </div>
+                <div class="card max-w-2xl mx-auto p-0">
+                    <div id="chat-container">
+                        <div id="chat-messages">
+                             <div class="chat-message bot-message">Olá! Como posso ajudar a analisar os dados educacionais hoje?</div>
+                        </div>
+                        <form id="chat-form">
+                            <input type="text" id="chat-input" placeholder="Digite sua pergunta aqui..." autocomplete="off">
+                            <button type="submit" id="chat-submit">
+                                <span class="material-symbols-outlined">send</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -389,48 +429,82 @@
                 });
             };
             
-            // --- ÁUDIO PRÉ-GRAVADO ---
-            const audioPlayer = new Audio();
-            let currentlyPlayingButton = null;
-            const aiResponseContainer = document.getElementById('ai-response-container');
-            const aiResponse = document.getElementById('ai-response');
+            // [ALTERADO] LÓGICA DE ÁUDIO MOVIDA PARA O NOVO CHATBOT
+            // A constante audioData será usada pelo chatbot
             const audioData = {
                 'queimadas': { text: "Análise de Destaque: Queimadas. Com um impressionante IQE de 9.27, Queimadas se posiciona como um município de altíssimo desempenho educacional. Este índice reflete não apenas excelentes resultados de aprendizagem, mas também uma infraestrutura escolar de qualidade e bons indicadores de equidade, mostrando um sistema educacional robusto e eficaz.", src: 'audio_completo.wav' },
                 'criticos': { text: "Análise de Atenção: Pontos Críticos. Municípios como Itatuba, com IQE de 1.0, e Santa Rita, com 1.69, representam pontos de atenção máxima. Estes índices extremamente baixos sinalizam uma emergência educacional, com desafios críticos em todas as dimensões avaliadas, como infraestrutura, desempenho e equidade. Estes casos demandam apoio intensivo e urgente.", src: 'data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAD//wIA/f8EAPr/BgD5/wgA+f8KAPj/DAD4/w4A9/8QAPb/EgD2/xQA9f8WAPX/GAD0/xoA8/8cAPL/HgDx/yAA8P8iAO//JADu/yoA7f8sAOz/LwDs/zIA6/80AOr/OADp/zwA6f8+AOf/QADl/0MA5P9GAOP/SQDj/0wA4v9QAOH/VwDf/kA3v9cANz/XwDb/2MA2v9lANn/awDZ/3AA1/9yANb/egDV/3sA1P9/ANP/hQDT/4kA0v+MANH/jgDQ/5AA/v+TAP7/lgD9/5sA/f+fAPz/ogD8/6UA+v+oAPr/qwD5/68A+P+zAPj/tQD3/7kA9v+8APX/wAD0/8MA8//GAO//ywDv/84A7f/SAO3/QDq/1kA6f9dAOX/YwDk/2cA4/9sAOL/dADg/3oA3/9/ANz/hADa/4kA2f+OANf/lQDX/5wA1f+gANP/pwDS/6wA0f+wAND/twD+/74A/v/CAAD/xQD+/8gA/P/KAPz/zwD7/9MA+v/XAPn/ZgD5/2wA+P91APf/fgD2/4UA9f+KAPL/jwDx/5UA8P+bAO//oADv/6kA7f+tAOv/uwDp/8MA5f/JAOP/zgDj/9QA4f9bAN//YwDd/2wA2/93ANn/gADW/4gA1P+OANL/lgDR/5wA0P+hAAD/pwD//6wA/v+1AP3/vAD8/8AA/P/FAPv/ywD6/88A+f/VAPf/awD2/3MA9f98APL/gwDx/4oA8P+TAO7/mwDt/6IA6v+lAOn/qgDl/7EA4/+5AOL/wADf/8YA3f/MANr/0QDY/9cA1v9mANP/cwDS/3wA0f+CANH/iwD//5MA/v+bAP7/oQD9/6UA/P+qAPr/sgD5/7gA+P+9APb/xAD1/8oA8//QAPL/1gDw/9oA7v9zAO3/fQDr/4QA6v+KAOX/kADj/5gA4v+fAOD/pADe/6sA3P+0ANr/vQDW/8YA1P/LANH/0QDQ/9gA//9qAP//cwD+/3wA/P+BAPv/igD6/5EA+f+YAPj/nwD3/6YA9v+rAPX/tgD0/7sA8//BAPL/xQDx/8sA8P/QAPL/1ADw/9kA7v9xAOz/fQDr/4QA6v+LAOX/jgDj/5UA4v+bAOD/oQDe/6gA2/+uANn/vQDX/8YA1P/LANL/0ADR/9gA//9pAP//cwD+/3sA/f+BAPz/iAD7/48A+v+XAPn/nQD4/6IA9/+mAPb/rQD1/7UA8/+7APL/wQDx/8cA8P/LAO//0ADt/9YA6//bAOr/eADm/4AA5P+HAOP/jADi/5QA3/+aAN3/oQDb/6gA2f+uANf/vQDU/8UA0//KANL/zgDR/9QA/v/ZAP7/cwD+/3sA/P+CAPv/iQD6/5AA+f+XAPj/nAD3/6IA9v+mAPX/qwD0/7UA8/+6APL/wQDw/8YA7v/LAO3/0gDs/9YA6v9sAOf/dgDl/3wA5P+CAOP/iQDi/5AA3v+YANz/nwDb/6QA2f+oANb/rQDV/7gA1P+8ANP/xADR/8oA0P/QAP//1QD//9sA/v91AP3/fQD8/4QA+//JAPr/kQD5/5YA+P+aAPf/oAD2/6YA9f+qAPT/tADz/7gA8v+8APL/xADv/8oA7v/OAO3/1ADr/9kA6v9vAOf/dwDl/3wA4/+BAOH/iQDe/5AA3P+VANv/mQDY/58A1v+jANX/pwDU/6wA0/+1ANL/uwDR/8IA0P/IAP//zQD//9QA/v/ZAP7/bwD9/3UA/P99APv/gwD6/4oA+f+QAPf/lgD2/5sA9f+gAPT/pQDz/6oA8v+xAPL/ugDw/8EA7v/IAO3/zgDr/9MA6v/XAOj/bQDm/3QA5P96AOP/gQDh/4kA3v+RANz/lgDa/5sA1v+gANX/pwDT/6wA0v+0ANH/ugDQ/8EA/v/HAP7/zAD9/9MA/P/YAPv/awD6/3IA+f97APj/hAD3/4oA9f+QAPT/lgDz/5sA8v+fAPL/pgDw/6wA7v+0AO3/vADq/8QA6f/KAOb/0ADk/9YA4/9tAOH/dADf/3kA3f9/ANr/hQDY/4wA1v+SANP/lwDS/5sA0f+hAND/pwAA/6sA//+zAAD/uwD//8EA/f/IAPz/zQD7/9MA+v/XAPj/aAD3/3AA9v94APX/fQDx/4QA8P+KAO//jwDu/5YA7P+bAOr/oADp/6YA5v+qAOX/sQDj/7gA4f+8AN//xADd/8oA2v/QANf/1QD//9kA//9vAP7/dQAA/30AAP+DAP//iQD+/5AA/f+WAPz/mwD7/58A+v+lAPj/qQD3/7EA9v+5APX/vQDx/8QA8P/JAO7/zQDt/9IA6/+0ANL/vwDS/8QA0f/KAAD/zgAA/9MA//3XAP/9agD//3IA//96AP//fwAA/4QAAACCAAD+gwAA/YMAAPyEAAAhiwAAvYkAAOSKAADGjAAAmY8AAGlPAAASTwAA8FAAAN5QAACEVgAAnFcAAG9iAAAbZAAAuWYAAKNrAACebQAAdnQAABd1AAD+dgAAs3oAAGh/AADugAAA84MAAJOMAABvjQAAZ5MAAFuVAABSngAASaMAAEmlAABRqwAAO6wAAMmtAAC6tAAAybYAAKy+AAC5vwAAsMMAALnFAACpxgAArsgAAKDKAACuyAAAnM8AAKfTAACp1gAAqNcAAJzZAACh2gAAnN4AAJbeAACW4AAAm+MAAJTjAACW5AAAluYAAJPpAACR6gAAkewAAI3uAACN7gAAi/AAAInwAACG8gAAdvMAAHXyAABt9AAAYfUAAGN3AAByfgAAkoYAAMOPAADJkwAAypkAANKlAADTrQAA2bsAAN/GAADl0AAA7NsAAPP/AQD9AgAA/wYAAP8LAAD+EgAA+xcAAPsiAAD2KgAA9jEAAPU4AADxPwAA8EUAAPCMAADviwAA7ZAAANuVAADapgAA2KwAANm6AADcxAAAzM0AAMrVAADJ2wAAxN8AAMPhAAD/4gAA/+gAAP/tAAD//QAAAgMAAAgGAAAMDAAAEA4AABMWAAAZGQAAGyIAACIkAAApJgAAKi4AACs0AAAtOAAA' }
             };
 
-            const audioButtons = document.querySelectorAll('.btn-audio');
-            const updateButtonUI = (button, isPlaying) => {
-                const icon = button.querySelector('span.material-symbols-outlined');
-                icon.textContent = isPlaying ? 'pause_circle' : 'play_circle';
-                button.classList.toggle('playing', isPlaying);
-            };
+            // --- [NOVO] LÓGICA PARA O CHATBOT DE INTELIGÊNCIA MUNICIPAL ---
+            const chatForm = document.getElementById('chat-form');
+            if (chatForm) { // Verifica se o formulário existe na página
+                const chatInput = document.getElementById('chat-input');
+                const chatMessages = document.getElementById('chat-messages');
+                let activeAudio = null;
 
-            audioButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const audioKey = button.dataset.audioKey;
-                    aiResponse.innerHTML = `<p>${audioData[audioKey].text}</p>`;
-                    aiResponseContainer.classList.remove('hidden');
+                chatForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const userInput = chatInput.value.trim().toLowerCase();
+                    if (userInput === '') return;
 
-                    if (currentlyPlayingButton === button) {
-                        if (audioPlayer.paused) { audioPlayer.play(); } else { audioPlayer.pause(); }
-                    } else {
-                        if (currentlyPlayingButton) { updateButtonUI(currentlyPlayingButton, false); }
-                        audioPlayer.src = audioData[audioKey].src;
-                        audioPlayer.play();
-                        currentlyPlayingButton = button;
-                    }
+                    appendMessage(userInput, 'user-message');
+                    chatInput.value = '';
+
+                    setTimeout(() => processUserInput(userInput), 500);
                 });
-            });
 
-            audioPlayer.addEventListener('play', () => { if (currentlyPlayingButton) updateButtonUI(currentlyPlayingButton, true); });
-            audioPlayer.addEventListener('pause', () => { if (currentlyPlayingButton) updateButtonUI(currentlyPlayingButton, false); });
-            audioPlayer.addEventListener('ended', () => {
-                if (currentlyPlayingButton) {
-                    updateButtonUI(currentlyPlayingButton, false);
-                    currentlyPlayingButton = null;
+                function appendMessage(text, type, audioSrc = null) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('chat-message', type, 'fade-in');
+
+                    if (audioSrc) {
+                        const audio = new Audio(audioSrc);
+                        const playBtn = document.createElement('button');
+                        playBtn.classList.add('audio-player-btn');
+                        playBtn.innerHTML = `<span class="material-symbols-outlined">play_circle</span>`;
+                        
+                        playBtn.addEventListener('click', () => {
+                            if (activeAudio && activeAudio !== audio) {
+                                activeAudio.pause();
+                            }
+                            activeAudio = audio;
+                            
+                            if (audio.paused) {
+                                audio.play();
+                            } else {
+                                audio.pause();
+                                audio.currentTime = 0;
+                            }
+                        });
+
+                        audio.addEventListener('play', () => playBtn.innerHTML = `<span class="material-symbols-outlined">pause_circle</span>`);
+                        audio.addEventListener('pause', () => playBtn.innerHTML = `<span class="material-symbols-outlined">play_circle</span>`);
+                        audio.addEventListener('ended', () => playBtn.innerHTML = `<span class="material-symbols-outlined">play_circle</span>`);
+                        
+                        messageDiv.appendChild(playBtn);
+                    }
+                    
+                    const textSpan = document.createElement('span');
+                    textSpan.innerText = text;
+                    messageDiv.appendChild(textSpan);
+
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
-            });
+
+                function processUserInput(input) {
+                    if (input.includes('queimadas') || input.includes('destaque')) {
+                        const data = audioData.queimadas;
+                        appendMessage(data.text, 'bot-message', data.src);
+                    } else if (input.includes('crítico') || input.includes('critico') || input.includes('atenção') || input.includes('atencao')) {
+                        const data = audioData.criticos;
+                        appendMessage(data.text, 'bot-message', data.src);
+                    } else {
+                        appendMessage('Desculpe, não entendi a sua pergunta. Por favor, tente perguntar sobre "destaques" ou "pontos críticos".', 'bot-message');
+                    }
+                }
+            }
             
             // --- LÓGICA DOS PROJETOS COM ANIMAÇÃO ---
             const projetosData = {
