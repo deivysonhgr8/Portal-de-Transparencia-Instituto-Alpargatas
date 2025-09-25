@@ -10,8 +10,6 @@ def calcular_iqe():
     Executa a análise fatorial, calcula o IQE e cria um índice final 
     em uma escala de 1 a 10. Retorna um DataFrame completo para visualização.
     """
-    # ETAPAS 1, 2, 3 e 4 (iguais às anteriores)
-    # =========================================================================
     print("--- FASE 1: CARREGANDO DADOS CONSOLIDADOS ---")
     df_base = transform.criar_base_de_analise_completa()
     if df_base.empty: return pd.DataFrame()
@@ -49,7 +47,6 @@ def calcular_iqe():
     df_analise['IQE'] = (iqe_0a1 * 9) + 1
     print("-> Coluna 'IQE' final criada na escala de 1 a 10.")
     
-    # --- MUDANÇA APLICADA AQUI ---
     # Retorna o DataFrame completo com as colunas originais e o IQE calculado
     return df_analise
 

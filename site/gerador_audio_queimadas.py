@@ -20,7 +20,7 @@ Este índice reflete não apenas excelentes resultados de aprendizagem, mas tamb
 infraestrutura escolar de qualidade e bons indicadores de equidade, mostrando um sistema educacional robusto e eficaz.
 '''
 
-# Você pode conferir outras vozes aqui: 
+# fonte das vozes aqui: 
 # http://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md
 voice = 'af_heart'
 generator = pipeline(text, voice='pf_dora')
@@ -44,7 +44,7 @@ com desafios críticos em todas as dimensões avaliadas, como infraestrutura, de
 demandam apoio intensivo e urgente.
 '''
 
-# Você pode conferir outras vozes aqui: 
+# fonte das vozes aqui: 
 # http://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md
 voice = 'af_heart'
 generator = pipeline(text, voice='pf_dora')
