@@ -57,7 +57,9 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .fade-in { 
+            animation: fadeIn 0.8s ease-out forwards; 
+        }
         
         .custom-select {
             appearance: none;
@@ -196,7 +198,6 @@
             }
         }
         
-        /* --- ESTILOS PARA INTERFACE DE CHAT --- */
         #chat-container {
             height: 400px;
             display: flex;
@@ -266,7 +267,7 @@
             </div>
             <nav class="hidden md:flex space-x-6">
                 <a href="#quem-somos" class="nav-link text-gray-600 font-medium">Quem Somos</a>
-                <a href="#o-que-fazemos" class="nav-link text-gray-600 font-medium">O Que Fazemos</a>
+                <a href="#o-que-fazemos" class="nav-link text-gray-600 font-medium">Nossos Projetos</a>
                 <a href="#iqe-mapa" class="nav-link text-gray-600 font-medium">Mapa IQE</a>
                 <a href="#analise-municipal" class="nav-link text-gray-600 font-medium">Análise Municipal</a>
                 <a href="#inteligencia" class="nav-link text-gray-600 font-medium">Inteligência Municipal</a>
@@ -279,7 +280,7 @@
         </div>
         <div id="mobile-menu" class="md:hidden hidden bg-white">
             <a href="#quem-somos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Quem Somos</a>
-            <a href="#o-que-fazemos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">O Que Fazemos</a>
+            <a href="#o-que-fazemos" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Nossos Projetos</a>
             <a href="#iqe-mapa" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Mapa IQE</a>
             <a href="#analise-municipal" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Análise Municipal</a>
             <a href="#inteligencia" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100 mobile-link">Inteligência Municipal</a>
@@ -289,9 +290,14 @@
     <main>
         <section id="quem-somos" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-6 fade-in" style="color:white;">Portal de Transparência: Instituto Alpargatas</h1>
-                <p class="max-w-4xl mx-auto text-lg leading-relaxed fade-in" style="animation-delay: 200ms; color: white;">
-                    Neste cenário complexo da educação brasileira, o <strong>Instituto Alpargatas</strong> posiciona-se como uma organização do terceiro setor, de caráter privado e sem fins lucrativos, cuja missão é catalisar a melhoria da qualidade da educação pública. Atuando em regime de colaboração com o poder público, o Instituto desenvolve e implementa projetos que visam fortalecer a gestão educacional, qualificar as práticas pedagógicas e promover o engajamento das comunidades escolares.
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 fade-in" style="color:white; animation-delay: 200ms;">Portal de Transparência Instituto Alpargatas:</h1>
+                
+                <p class="text-2xl md:text-3xl mb-8 fade-in text-gray-200" style="animation-delay: 500ms;">
+                    Democratizando o acesso a informação
+                </p>
+
+                <p class="max-w-4xl mx-auto text-xl leading-relaxed fade-in" style="animation-delay: 800ms; color: white;">
+                    Reconhecendo os desafios da educação brasileira, o Instituto Alpargatas foi criado para ser um agente de transformação. Nossa missão é clara: melhorar a qualidade da educação pública por meio de uma atuação estratégica. Em parceria com o poder público, investimos em gestão escolar e inovação pedagógica alinhada aos objetivos do desenvolvimento sustentável agenda 2030.
                 </p>
             </div>
         </section>
@@ -299,9 +305,9 @@
         <section id="o-que-fazemos" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl section-title">Nossa Atuação Estratégica</h2>
+                    <h2 class="text-3xl md:text-4xl section-title">Nossos Projetos</h2>
                     <p class="max-w-3xl mx-auto text-lg text-gray-600 mt-4">
-                        Selecione um de nossos eixos de atuação para conhecer o impacto gerado, os projetos desenvolvidos e o total de vidas transformadas.
+                       Selecione um de nossos progrmas e veja com os próprios olhos os resultados concretos. Entenda como cada projeto foi desenvolvido para transformar a educação e inspire-se com as milhares de vidas que já foram impactadas por nosso trabalho.
                     </p>
                 </div>
 
@@ -323,7 +329,7 @@
                  <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl section-title mb-4">Mapa do IQE - Índice de Qualidade da Educação</h2>
                     <p class="max-w-3xl mx-auto text-lg text-gray-600">
-                        Visualização do <strong>Índice de Qualidade da Educação (IQE)</strong> nos municípios de atuação do Instituto. O IQE é um indicador multidimensional (escala de 1 a 10) que avalia a educação de forma mais completa, considerando fatores como desempenho, fluxo escolar, equidade e infraestrutura.
+                        O <strong>Índice de Qualidade de Educação (IQE)</strong> é como um raio-X completo de um Município, que vai muito além de uma simples nota. Ele é um diagnóstico detalhado, calculado a partir de uma média ponderada de cinco fatores essenciais que influenciam a educação. Para um entendimento mais claro, pense que o IQE é uma ferramenta que combina as notas dos alunos em Português e Matemática (do SAEB) com a taxa de aprovação do IDEB, garantindo que o aprendizado e a progressão dos estudantes sejam considerados. Além disso, o índice leva em conta a realidade da escola ao avaliar o nível socioeconômico dos alunos, a formação e preparo dos professores, e a qualidade da infraestrutura escolar (como as salas de aula e quadras). Juntos, esses cinco pilares oferecem uma visão justa e completa do ambiente de ensino, permitindo que a escola entenda seus pontos fortes e onde precisa melhorar.
                     </p>
                 </div>
                 <div id="map" class="h-[600px] w-full rounded-lg shadow-lg border-2 border-gray-200"></div>
@@ -333,8 +339,8 @@
         <section id="analise-municipal" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                     <h2 class="text-3xl md:text-4xl section-title mb-4">Análise Municipal do IQE</h2>
-                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Selecione um município para visualizar seu Índice de Qualidade da Educação (IQE) e entender o contexto socioeconômico e os resultados detalhados.</p>
+                     <h2 class="text-3xl md:text-4xl section-title mb-4">Análise Municipal do IQE nos municípios de atuação do Instituto Alpargatas</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600">Selecione qualquer dos municípiso de atuação do Instituto para visualizar seu Índice de Qualidade da Educação (IQE) e entender o contexto socioeconômico e os resultados detalhados.</p>
                 </div>
                 
                 <div class="card p-8 max-w-4xl mx-auto">
@@ -399,18 +405,27 @@
             </div>
         </section>
         </main>
-    
+       <section id="colaboracao" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-2xl font-bold text-gray-600 mb-8">Em colaboração com:</h3>
+                <div class="max-w-xs mx-auto">
+                    <img src="Brasão_UFPB.png" alt="Logo da Universidade Federal da Paraíba" class="h-24 mx-auto mb-4">
+                    <p class="text-xl font-semibold text-gray-800">Universidade Federal da Paraíba</p>
+                </div>
+            </div>
+        </section>
+        </main>
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Instituto Alpargatas. Todos os direitos reservados.</p>
-            <p class="text-sm text-gray-400 mt-2">Uma Análise de Impacto do IQE, Censo Escolar e Saeb.</p>
+            <p>&copy; 2025 Instituto Alpargatas Universidade Federal da Paraíba. Todos os direitos reservados.</p>
+            <p class="text-sm text-gray-400 mt-2">Uma Análise de fatores relevantes que impactam na Qualidade da Educação nos municípios de atuação do Instituto Alpargatas, utilziando o Censo Escolar, Saeb, AFD, IDEB e INS.</p>
+                        <p class="text-sm text-gray-400 mt-2">Desenvolvido Por Deivyson Gomes, Ítalo Oliveira e Matheus Belchior</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             
-            // --- MENU MOBILE ---
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -418,7 +433,6 @@
             menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
             mobileLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
 
-            // --- NAVEGAÇÃO ATIVA ---
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
             window.onscroll = () => {
@@ -435,27 +449,28 @@
                 });
             };
 
-            // --- LÓGICA DOS PROJETOS COM ANIMAÇÃO ---
+
             const projetosData = {
                 esporte: {
                     icone: 'sports_soccer',
                     titulo: 'Educação pelo Esporte',
-                    descricao: 'É um programa que visa melhorar a educação de crianças e jovens por meio da prática esportiva e cultural. O instituto atua em parceria com secretarias municipais de educação e escolas públicas para desenvolver competências socioemocionais e cognitivas, promover a participação de alunos e valorizar experiências inovadoras de ensino.',
+                    descricao: '<strong>Muito mais que esporte: estamos construindo o futuro.</strong><br><br>Acreditamos que o esporte e a cultura são ferramentas poderosas para transformar vidas. Este programa vai além da quadra e da sala de aula, atuando em parceria com escolas e secretarias públicas para desenvolver habilidades essenciais para a vida. Através da prática esportiva e cultural, incentivamos a participação ativa de crianças e jovens, fortalecendo suas competências socioemocionais e cognitivas, e construindo uma base sólida para um futuro de sucesso.',
                     beneficiados: '158.209'
                 },
                 cultura: {
                     icone: 'theater_comedy',
                     titulo: 'Educação pela Cultura',
-                    descricao: 'Um programa que promove a inclusão de atividades pedagógicas não tradicionais, resgatando a cultura popular brasileira, especialmente a afro-brasileira e a indígena, por meio da formação de professores. O programa busca valorizar a identidade e os saberes locais, incentivando a criatividade e a multiplicidade de formas de expressão cultural nos alunos e educadores, contemplando projetos como EDUCAÇÃO INTEGRAL e CAPOEIRA INCLUSIVA.',
+                    descricao: '<strong>Cultura para transformar e incluir: resgatando nossas raízes.</strong><br><br>Nossa cultura é um tesouro, e este programa a utiliza como uma ponte para o aprendizado. Focamos em resgatar e valorizar a cultura popular brasileira, com um olhar especial para as heranças afro-brasileira e indígena. Através da formação de educadores, incentivamos a criatividade e a multiplicidade de expressões culturais nas escolas. Projetos como Educação Integral e Capoeira Inclusiva mostram como a cultura pode ser uma ferramenta de inclusão e de valorização da identidade de cada criança e educador.',
                     beneficiados: '158.367'
                 },
                 profissionalizante: {
                     icone: 'work',
                     titulo: 'Educação Profissionalizante',
-                    descricao: 'O Instituto Alpargatas promove projetos de educação profissionalizante por meio de parcerias com prefeituras locais, como em Guarabira e Fagundes, oferecendo cursos gratuitos para qualificar jovens e adultos para o mercado de trabalho. Além disso, o instituto apoia a educação em diversas frentes, incluindo programas como o prêmio "Educador Nota 10" e iniciativas de capacitação como os Laboratórios de Inovação e Sustentabilidade Educacional (LISE).',
+                    descricao: '<strong>Oportunidades que transformam vidas: abrindo portas para o futuro.</strong><br><br>Acreditamos que o acesso à qualificação profissional é o primeiro passo para um futuro melhor. Em parceria com prefeituras locais, como em Guarabira e Fagundes, oferecemos cursos profissionalizantes gratuitos para jovens e adultos. Nosso objetivo é preparar as pessoas para o mercado de trabalho, gerando mais autonomia e oportunidades. Além disso, valorizamos o talento e o esforço de quem está na linha de frente da educação, apoiando iniciativas como o prêmio "Educador Nota 10" e capacitações em inovação.',
                     beneficiados: '4.119'
                 }
             };
+
 
             const seletorContainer = document.getElementById('projeto-seletor');
             const projetoContainer = document.getElementById('projeto-container');
@@ -465,7 +480,7 @@
                 const finalNumber = parseInt(finalNumberStr.replace(/\./g, ''));
                 const duration = 1500; 
                 let currentNumber = 0;
-                const frameDuration = 1000 / 60; // 60fps
+                const frameDuration = 1000 / 60;
                 const totalFrames = Math.round(duration / frameDuration);
                 const increment = finalNumber / totalFrames;
 
@@ -534,31 +549,26 @@
 
             updateProjectView('esporte');
             
-            // --- [INÍCIO DA LÓGICA ATUALIZADA] ---
-            
-            // --- DADOS DO MAPA E ANÁLISE MUNICIPAL (IQE) ---
             const iqeData = [
-                // Adicionando a chave "retorno_por_real" em cada objeto
-                { nome: "Cabaceiras", iqe: 10.0, retorno_por_real: 0.00000119, contexto: "Localizada no semiárido paraibano, Cabaceiras é conhecida como a 'Roliúde Nordestina' por ser cenário de muitos filmes nacionais. A cidade enfrenta os desafios do clima seco, mas possui uma forte identidade cultural.", analise: "Com um IQE máximo de 10.0, Cabaceiras é um exemplo de excelência. Este resultado indica um desempenho educacional extraordinário, com altíssima qualidade na infraestrutura escolar, equidade socioeconômica e formação docente, servindo como modelo para outros municípios da região." },
-                { nome: "Queimadas", iqe: 9.27, retorno_por_real: 0.00000051, contexto: "Integrando a região metropolitana de Campina Grande, Queimadas é um município com forte atividade industrial e comercial, o que reflete em uma dinâmica socioeconômica mais robusta em comparação com cidades do interior.", analise: "O IQE de 9.27 posiciona Queimadas como um município de altíssimo desempenho. A nota reflete não apenas excelentes resultados de aprendizagem, mas também uma infraestrutura escolar de qualidade e bons indicadores de equidade, potencializados pelo contexto econômico favorável." },
-                { nome: "Montes Claros", iqe: 7.85, retorno_por_real: 0.00000241, contexto: "Principal centro urbano do norte de Minas Gerais, Montes Claros é um polo de serviços, educação e saúde para uma vasta região. Enfrenta os desafios de uma cidade de grande porte, com diversidade socioeconômica.", analise: "Atingir um IQE de 7.85 é um resultado sólido e muito positivo para um centro regional como Montes Claros. Indica um sistema educacional bem estruturado, com boa qualidade de ensino e infraestrutura, conseguindo manter um padrão elevado apesar da complexidade urbana." },
-                { nome: "Campina Grande", iqe: 5.61, retorno_por_real: 0.00000400, contexto: "Reconhecida como um dos principais polos tecnológicos e universitários do Nordeste, Campina Grande possui uma economia diversificada e uma população com alto nível de instrução em comparação com a média regional.", analise: "O IQE de 5.61 é considerado bom, mas com espaço para melhorias. Reflete a força da infraestrutura e do capital humano da cidade. No entanto, o índice sugere que ainda existem desafios para garantir que a qualidade educacional seja uniforme em todas as escolas, especialmente nas áreas periféricas." },
-                { nome: "São Paulo", iqe: 5.11, retorno_por_real: 0.00000350, contexto: "Maior metrópole do Brasil, São Paulo é um centro de imensa diversidade, oportunidades e profundas desigualdades socioeconômicas, o que impõe desafios gigantescos para a gestão da educação pública.", analise: "Um IQE de 5.11 é um indicador de qualidade média e evidencia a complexidade da gestão educacional paulistana. O resultado mostra que, apesar dos recursos disponíveis, a desigualdade entre as diferentes regiões da cidade impacta fortemente a equidade e a qualidade geral da educação." },
-                { nome: "Carpina", iqe: 4.44, retorno_por_real: 0.00000429, contexto: "Localizado na Zona da Mata de Pernambuco, Carpina é um importante centro comercial da região, com uma economia baseada no comércio, serviços e na indústria canavieira.", analise: "Com um IQE de 4.44, Carpina está em um patamar intermediário, indicando que existem bases sólidas, mas também desafios importantes a serem superados. A análise sugere a necessidade de foco em áreas como a qualificação docente e a melhoria da infraestrutura para impulsionar a qualidade." },
-                { nome: "João Pessoa", iqe: 4.40, retorno_por_real: 0.00000522, contexto: "Capital da Paraíba, João Pessoa é um centro administrativo e turístico com uma boa infraestrutura urbana. A cidade, no entanto, também apresenta bolsões de vulnerabilidade social em suas periferias.", analise: "O IQE de 4.40 para a capital paraibana é um sinal de alerta. Embora a cidade possua recursos, o índice aponta para desafios na garantia de uma educação de alta qualidade de forma equitativa para todos os alunos, indicando que melhorias na infraestrutura e na equidade são necessárias." },
-                { nome: "Lagoa Seca", iqe: 3.94, retorno_por_real: 0.00000511, contexto: "Vizinha a Campina Grande, Lagoa Seca tem uma economia com forte base na agricultura e no comércio local, sendo influenciada pela proximidade com um grande centro urbano.", analise: "Um IQE de 3.94 coloca Lagoa Seca em um nível de atenção. O resultado sugere que, embora haja potencial, fatores como infraestrutura escolar e o nível socioeconômico médio dos alunos podem estar limitando um avanço mais significativo na qualidade da educação." },
-                { nome: "Guarabira", iqe: 3.05, retorno_por_real: 0.00000537, contexto: "Polo da região do Brejo Paraibano, Guarabira é um centro comercial e de serviços para os municípios do entorno, com uma economia diversificada que inclui agricultura e comércio.", analise: "O IQE de 3.05 indica desafios estruturais importantes no sistema educacional. A nota aponta para a necessidade de investimentos consistentes em múltiplas áreas, desde a infraestrutura das escolas até a formação continuada dos professores, para reverter o quadro atual." },
-                { nome: "Alagoa Nova", iqe: 2.94, retorno_por_real: 0.00000575, contexto: "Município localizado no Brejo Paraibano, com economia predominantemente agrícola, especialmente cana-de-açúcar e fruticultura. Apresenta indicadores socioeconômicos modestos.", analise: "Com um IQE de 2.94, Alagoa Nova enfrenta desafios consideráveis. O baixo índice reflete dificuldades em componentes essenciais como infraestrutura e qualificação docente, que impactam diretamente a aprendizagem dos alunos. Ações focadas são cruciais." },
-                { nome: "Caturité", iqe: 2.60, retorno_por_real: 0.00000550, contexto: "Pequeno município no Agreste Paraibano, com base econômica na agropecuária e uma população de baixa densidade demográfica.", analise: "O IQE de 2.60 sinaliza a existência de desafios significativos e a necessidade de atenção especial. Este resultado sugere que a infraestrutura escolar e os indicadores socioeconômicos são fatores críticos que precisam ser abordados para que a qualidade da educação possa melhorar." },
-                { nome: "Bananeiras", iqe: 2.50, retorno_por_real: 0.00000644, contexto: "Conhecida pelo clima ameno no Brejo Paraibano, Bananeiras tem forte apelo turístico e uma economia que também envolve a agricultura. Possui um contexto socioeconômico heterogêneo.", analise: "Um IQE de 2.50 indica que o município está em um ponto crítico. Apesar de seu potencial turístico, a educação básica enfrenta grandes desafios, provavelmente ligados à infraestrutura e à necessidade de maior investimento na qualificação dos educadores." },
-                { nome: "Ingá", iqe: 2.45, retorno_por_real: 0.00000637, contexto: "Famosa pela Pedra do Ingá, um importante monumento arqueológico, a cidade de Ingá, no Agreste Paraibano, tem sua economia centrada na agricultura e no funcionalismo público.", analise: "Com um IQE de 2.45, Ingá também se encontra em uma situação que requer atenção. A nota sugere que as condições de oferta de ensino, como infraestrutura e recursos pedagógicos, são um gargalo importante para a melhoria da qualidade educacional." },
-                { nome: "Mogeiro", iqe: 2.22, retorno_por_real: 0.00000542, contexto: "Município do Agreste Paraibano, com economia baseada na agricultura de subsistência e na pecuária, apresentando um perfil socioeconômico de vulnerabilidade.", analise: "O IQE de 2.22 reflete os desafios socioeconômicos enfrentados pelo município. O resultado aponta para a necessidade de intervenções estruturantes, focadas em melhorar as condições básicas das escolas e apoiar os docentes para garantir uma aprendizagem mais eficaz." },
-                { nome: "Serra Redonda", iqe: 1.83, retorno_por_real: 0.00000690, contexto: "Pequeno município localizado na mesorregião do Agreste Paraibano, com economia baseada principalmente na agricultura e na pecuária.", analise: "Um IQE de 1.83 indica uma situação educacional muito crítica. Este valor sugere deficiências graves em múltiplos fatores do índice, demandando um plano de ação emergencial para fortalecer a infraestrutura, a gestão e as práticas pedagógicas." },
-                { nome: "Santa Rita", iqe: 1.69, retorno_por_real: 0.00000550, contexto: "Integrando a região metropolitana de João Pessoa, Santa Rita é um dos municípios mais populosos da Paraíba, com uma economia industrial forte, mas também com grandes desafios sociais e de infraestrutura urbana.", analise: "O IQE de 1.69 é extremamente baixo para um município com a importância econômica de Santa Rita. O resultado evidencia que o desenvolvimento industrial não se traduziu em qualidade educacional, apontando para profundas desigualdades e carências estruturais no sistema de ensino." },
-                { nome: "Itatuba", iqe: 1.0, retorno_por_real: 0.00000633, contexto: "Município situado no Agreste Paraibano, com uma economia de base agrícola e um dos menores Índices de Desenvolvimento Humano (IDH) do estado.", analise: "A nota mínima de 1.0 no IQE sinaliza um cenário de emergência educacional. Este resultado indica que o município enfrenta desafios críticos em todas as dimensões avaliadas, necessitando de um apoio intensivo e urgente para reverter a situação e garantir o direito básico à educação de qualidade." }
+                { nome: "Cabaceiras", iqe: 10.0, retorno_por_real: 0.00000119, contexto: "Localizada no semiárido paraibano, Cabaceiras é conhecida como a 'Roliúde Nordestina' por ser cenário de muitos filmes nacionais. A cidade enfrenta os desafios do clima seco, mas possui uma forte identidade cultural.", analise: "Com um IQE máximo de 10.0, Cabaceiras se mostra como um ponto de destaque entre os municípios de atuação do Instituto Alpargatas, indicando que as estratégias educacionais adotadas estão gerando excelentes resultados." },
+                { nome: "Queimadas", iqe: 9.27, retorno_por_real: 0.00000051, contexto: "Integrando a região metropolitana de Campina Grande, Queimadas é um município com forte atividade industrial e comercial, o que reflete em uma dinâmica socioeconômica mais robusta em comparação com cidades do interior.", analise: "O IQE de 9.27 posiciona Queimadas como outro importante ponto de destaque para o Instituto. Este ótimo resultado sugere que a qualidade do ensino e as condições de aprendizagem estão em um nível muito elevado." },
+                { nome: "Montes Claros", iqe: 7.85, retorno_por_real: 0.00000241, contexto: "Principal centro urbano do norte de Minas Gerais, Montes Claros é um polo de serviços, educação e saúde para uma vasta região. Enfrenta os desafios de uma cidade de grande porte, com diversidade socioeconômica.", analise: "Atingir um IQE de 7.85 em um centro regional como Montes Claros é um grande destaque. O resultado indica um sistema educacional bem estruturado e com um padrão de qualidade muito positivo para a região." },
+                { nome: "Campina Grande", iqe: 5.61, retorno_por_real: 0.00000400, contexto: "Reconhecida como um dos principais polos tecnológicos e universitários do Nordeste, Campina Grande possui uma economia diversificada e uma população com alto nível de instrução em comparação com a média regional.", analise: "O IQE de 5.61 é considerado bom e mostra um avanço significativo. Ao mesmo tempo, serve como um indicador de que há oportunidades de melhoria para que a cidade alcance todo o seu potencial educacional." },
+                { nome: "São Paulo", iqe: 5.11, retorno_por_real: 0.00000350, contexto: "Maior metrópole do Brasil, São Paulo é um centro de imensa diversidade, oportunidades e profundas desigualdades socioeconômicas, o que impõe desafios gigantescos para a gestão da educação pública.", analise: "Um IQE de 5.11 revela a complexidade de uma cidade como São Paulo. Para uma análise completa, é preciso estudar a fundo seu ecossistema, pois a média pode esconder grandes diferenças entre as regiões da metrópole." },
+                { nome: "Carpina", iqe: 4.44, retorno_por_real: 0.00000429, contexto: "Localizado na Zona da Mata de Pernambuco, Carpina é um importante centro comercial da região, com uma economia baseada no comércio, serviços e na indústria canavieira.", analise: "Com um IQE de 4.44, Carpina se torna um ponto de atenção para o Instituto. O índice sugere que, embora existam bases sólidas, é preciso focar em ações de melhoria para impulsionar a qualidade da educação local." },
+                { nome: "João Pessoa", iqe: 4.40, retorno_por_real: 0.00000522, contexto: "Capital da Paraíba, João Pessoa é um centro administrativo e turístico com uma boa infraestrutura urbana. A cidade, no entanto, também apresenta bolsões de vulnerabilidade social em suas periferias.", analise: "O IQE de 4.40 em uma capital como João Pessoa indica um ponto de atenção importante. A análise da média da cidade exige um estudo aprofundado do seu ecossistema, para entender as diferentes realidades e desafios em cada bairro." },
+                { nome: "Lagoa Seca", iqe: 3.94, retorno_por_real: 0.00000511, contexto: "Vizinha a Campina Grande, Lagoa Seca tem uma economia com forte base na agricultura e no comércio local, sendo influenciada pela proximidade com um grande centro urbano.", analise: "Um IQE de 3.94 coloca Lagoa Seca como um ponto de atenção. O resultado mostra que há potencial de desenvolvimento e que o apoio do Instituto pode ser fundamental para superar os desafios locais e melhorar os indicadores." },
+                { nome: "Guarabira", iqe: 3.05, retorno_por_real: 0.00000537, contexto: "Polo da região do Brejo Paraibano, Guarabira é um centro comercial e de serviços para os municípios do entorno, com uma economia diversificada que inclui agricultura e comércio.", analise: "O IQE de 3.05 indica que Guarabira é um ponto de atenção prioritário. A nota aponta para a necessidade de um apoio mais próximo do Instituto para fortalecer o sistema educacional e criar mais oportunidades para os alunos." },
+                { nome: "Alagoa Nova", iqe: 2.94, retorno_por_real: 0.00000575, contexto: "Município localizado no Brejo Paraibano, com economia predominantemente agrícola, especialmente cana-de-açúcar e fruticultura. Apresenta indicadores socioeconômicos modestos.", analise: "Com um IQE de 2.94, Alagoa Nova é um ponto de atenção que requer ações focadas. O baixo índice mostra a importância da atuação do Instituto para ajudar a superar as dificuldades e melhorar a qualidade do ensino." },
+                { nome: "Caturité", iqe: 2.60, retorno_por_real: 0.00000550, contexto: "Pequeno município no Agreste Paraibano, com base econômica na agropecuária e uma população de baixa densidade demográfica.", analise: "O IQE de 2.60 sinaliza a existência de desafios significativos e a necessidade de atenção especial do Instituto para apoiar o desenvolvimento da educação no município." },
+                { nome: "Bananeiras", iqe: 2.50, retorno_por_real: 0.00000644, contexto: "Conhecida pelo clima ameno no Brejo Paraibano, Bananeiras tem forte apelo turístico e uma economia que também envolve a agricultura. Possui um contexto socioeconômico heterogêneo.", analise: "Um IQE de 2.50 identifica Bananeiras como um ponto de atenção crítico. Apesar de seu potencial, a educação básica local precisa de um forte apoio do Instituto para que os alunos tenham melhores condições de aprendizado." },
+                { nome: "Ingá", iqe: 2.45, retorno_por_real: 0.00000637, contexto: "Famosa pela Pedra do Ingá, um importante monumento arqueológico, a cidade de Ingá, no Agreste Paraibano, tem sua economia centrada na agricultura e no funcionalismo público.", analise: "Com um IQE de 2.45, Ingá também se apresenta como um ponto de atenção. A nota sugere que o apoio do Instituto pode ser decisivo para melhorar as condições de ensino e a qualidade da educação como um todo." },
+                { nome: "Mogeiro", iqe: 2.22, retorno_por_real: 0.00000542, contexto: "Município do Agreste Paraibano, com economia baseada na agricultura de subsistência e na pecuária, apresentando um perfil socioeconômico de vulnerabilidade.", analise: "O IQE de 2.22 reflete os grandes desafios de Mogeiro, tornando-o um ponto de atenção prioritário. O resultado reforça a importância de ações e parcerias para transformar a realidade da educação local." },
+                { nome: "Serra Redonda", iqe: 1.83, retorno_por_real: 0.00000690, contexto: "Pequeno município localizado na mesorregião do Agreste Paraibano, com economia baseada principalmente na agricultura e na pecuária.", analise: "Um IQE de 1.83 representa um ponto de atenção máximo. Este valor indica a necessidade de um plano de ação focado e urgente do Instituto para apoiar o município a construir uma base sólida para a educação." },
+                { nome: "Santa Rita", iqe: 1.69, retorno_por_real: 0.00000550, contexto: "Integrando a região metropolitana de João Pessoa, Santa Rita é um dos municípios mais populosos da Paraíba, com uma economia industrial forte, mas também com grandes desafios sociais e de infraestrutura urbana.", analise: "O IQE de 1.69 é um ponto de atenção extremamente crítico. O resultado mostra que, apesar da importância econômica da cidade, a educação precisa de apoio estratégico para que possa evoluir e gerar oportunidades para todos." },
+                { nome: "Itatuba", iqe: 1.0, retorno_por_real: 0.00000633, contexto: "Município situado no Agreste Paraibano, com uma economia de base agrícola e um dos menores Índices de Desenvolvimento Humano (IDH) do estado.", analise: "A nota mínima de 1.0 no IQE sinaliza um cenário de emergência educacional. Este é um ponto de atenção máximo, que exige apoio intensivo e urgente do Instituto para garantir o direito à educação de qualidade no município." }
             ];
 
-            // LÓGICA DA SEÇÃO 'ANALISE MUNICIPAL'
             const municipioSelect = document.getElementById('municipio-select');
             const iqeContexto = document.getElementById('iqe-contexto');
             const iqeAnalise = document.getElementById('iqe-analise');
@@ -596,7 +606,6 @@
             municipioSelect.addEventListener('change', updateMunicipioAnalise);
             updateMunicipioAnalise();
 
-            // LÓGICA DA SEÇÃO 'MAPA IQE'
             const map = L.map('map').setView([-7.9, -36.5], 7);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -647,7 +656,6 @@
             };
             legend.addTo(map);
 
-            // --- LÓGICA DA SEÇÃO 'INTELIGÊNCIA MUNICIPAL' (CHATBOT) ---
             const chatForm = document.getElementById('chat-form');
             const chatInput = document.getElementById('chat-input');
             const chatMessagesContainer = document.getElementById('chat-messages');
@@ -655,7 +663,7 @@
             function appendMessage(text, type) {
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('chat-message', type, 'fade-in');
-                messageDiv.innerHTML = text; // Usar innerHTML para renderizar tags como <br> e <strong>
+                messageDiv.innerHTML = text;
                 chatMessagesContainer.appendChild(messageDiv);
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
             }
@@ -679,7 +687,6 @@
             }
 
             function handleDecisao(municipioNome) {
-                // Normaliza o nome do município para comparação (remove acentos, cedilha e torna minúsculo)
                 const normalizeString = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 const nomeNormalizado = normalizeString(municipioNome);
                 
@@ -724,9 +731,8 @@
                 appendMessage(userInput, 'user-message');
                 chatInput.value = '';
 
-                setTimeout(() => processUserInput(userInput), 500); // Delay para simular "pensamento"
+                setTimeout(() => processUserInput(userInput), 500);
             });
-            // --- [FIM DA LÓGICA ATUALIZADA] ---
         });
     </script>
 
