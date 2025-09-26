@@ -254,6 +254,48 @@
         #chat-submit:hover {
             background-color: #dd571c;
         }
+
+        /* --- ESTILOS DO CONTAINER DO MAPA NA PÁGINA --- */
+        .map-wrapper-inline {
+            position: relative;
+            width: 100%;
+            height: 600px; /* Altura fixa do mapa na página */
+            padding: 3px; 
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        .map-wrapper-inline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, var(--cor-acento) 10%, var(--cor-primaria) 20%, transparent 25%);
+            transform: translate(-50%, -50%);
+            animation: rotate-border 5s linear infinite;
+        }
+
+        @keyframes rotate-border {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        #map-container {
+            background-color: white;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -329,10 +371,14 @@
                  <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl section-title mb-4">Mapa do IQE - Índice de Qualidade da Educação</h2>
                     <p class="max-w-3xl mx-auto text-lg text-gray-600">
-                        O <strong>Índice de Qualidade de Educação (IQE)</strong> é como um raio-X completo de um Município, que vai muito além de uma simples nota. Ele é um diagnóstico detalhado, calculado a partir de uma média ponderada de cinco fatores essenciais que influenciam a educação. Para um entendimento mais claro, pense que o IQE é uma ferramenta que combina as notas dos alunos em Português e Matemática (do SAEB) com a taxa de aprovação do IDEB, garantindo que o aprendizado e a progressão dos estudantes sejam considerados. Além disso, o índice leva em conta a realidade da escola ao avaliar o nível socioeconômico dos alunos, a formação e preparo dos professores, e a qualidade da infraestrutura escolar (como as salas de aula e quadras). Juntos, esses cinco pilares oferecem uma visão justa e completa do ambiente de ensino, permitindo que a escola entenda seus pontos fortes e onde precisa melhorar.
+                        O <strong>Índice de Qualidade de Educação (IQE)</strong> é como um raio-X completo de um Município, que vai muito além de uma simples nota. Ele é um diagnóstico detalhado, calculado a partir de uma média ponderada de cinco fatores essenciais que influenciam a educação. Para um entendimento mais claro, pense que o IQE é uma ferramenta que combina as notas dos alunos em Português e Matemática (do SAEB) com a taxa de aprovação do IDEB, garantindo que o aprendizado e a progressão dos estudantes sejam considerados. Além disso, o índice leva em conta a realidade da escola ao avaliar o nível socioeconômico dos alunos, a formação e preparo dos professores, e a qualidade da infraestrutura escolar. Juntos, esses cinco pilares oferecem uma visão justa e completa do ambiente de ensino, permitindo que a escola entenda seus pontos fortes e onde precisa melhorar.
                     </p>
                 </div>
-                <div id="map" class="h-[600px] w-full rounded-lg shadow-lg border-2 border-gray-200"></div>
+                <div class="map-wrapper-inline">
+                    <div id="map-container">
+                        <div id="map"></div>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -422,6 +468,7 @@
                         <p class="text-sm text-gray-400 mt-2">Desenvolvido Por Deivyson Gomes, Ítalo Oliveira e Matheus Belchior</p>
         </div>
     </footer>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -604,25 +651,34 @@
                 municipioSelect.appendChild(option);
             });
             municipioSelect.addEventListener('change', updateMunicipioAnalise);
+            if (municipioSelect.options.length > 0) {
+              municipioSelect.value = "Campina Grande";
+            }
             updateMunicipioAnalise();
 
+            // --- LÓGICA DO MAPA ---
             const map = L.map('map').setView([-7.9, -36.5], 7);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             }).addTo(map);
+            
             const iqeMap = new Map(iqeData.map(d => [d.nome.toUpperCase(), d.iqe]));
+            
             function style(feature) {
                 const nomeMunicipio = feature.properties.name.toUpperCase();
                 const iqe = iqeMap.get(nomeMunicipio);
                 return { fillColor: iqe ? getIqeColor(iqe) : 'transparent', weight: iqe ? 1.5 : 0.5, opacity: 1, color: iqe ? '#FFF' : '#AAA', dashArray: iqe ? '3' : '', fillOpacity: iqe ? 0.8 : 0.0 };
             }
+            
             function highlightFeature(e) {
                 const layer = e.target;
                 layer.setStyle({ weight: 4, color: 'var(--cor-primaria)', dashArray: '', fillOpacity: 0.9 });
                 if (!L.Browser.ie) layer.bringToFront();
             }
+            
             let geojsonLayer; 
             const resetHighlight = (e) => geojsonLayer.resetStyle(e.target);
+            
             function onEachFeature(feature, layer) {
                 const nomeMunicipio = feature.properties.name.toUpperCase();
                 const iqe = iqeMap.get(nomeMunicipio);
@@ -631,9 +687,11 @@
                     layer.on({ mouseover: highlightFeature, mouseout: resetHighlight });
                 }
             }
+            
             const urlsGeoJSON = {
                 'PB': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-25-mun.json', 'PE': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-26-mun.json', 'MG': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-31-mun.json', 'SP': 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-35-mun.json'
             };
+            
             Promise.all(Object.values(urlsGeoJSON).map(url => fetch(url).then(res => res.json())))
             .then(allGeoData => {
                 const combinedGeoData = { type: "FeatureCollection", features: allGeoData.flatMap(data => data.features) };
@@ -643,6 +701,7 @@
                 console.error("Erro ao carregar dados geográficos:", error);
                 document.getElementById('map').innerHTML = '<p class="text-center text-red-500 p-4">Não foi possível carregar o mapa.</p>';
             });
+            
             const legend = L.control({position: 'bottomright'});
             legend.onAdd = function (map) {
                 const div = L.DomUtil.create('div', 'info legend');
@@ -656,9 +715,12 @@
             };
             legend.addTo(map);
 
+            // --- LÓGICA DO CHAT E ÁUDIO ---
             const chatForm = document.getElementById('chat-form');
             const chatInput = document.getElementById('chat-input');
             const chatMessagesContainer = document.getElementById('chat-messages');
+            let currentAudio = null;
+            let currentlyPlayingButton = null;
             
             function appendMessage(text, type) {
                 const messageDiv = document.createElement('div');
@@ -668,28 +730,93 @@
                 chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
             }
 
+            function resetPlayButton() {
+                if (currentlyPlayingButton) {
+                    const icon = currentlyPlayingButton.querySelector('.material-symbols-outlined');
+                    const text = currentlyPlayingButton.querySelector('.button-text');
+                    if(icon) icon.textContent = 'volume_up';
+                    if(text) text.textContent = 'Ouvir áudio';
+                }
+            }
+            
+            chatMessagesContainer.addEventListener('click', function(event) {
+                const clickedButton = event.target.closest('.audio-play-btn');
+                if (!clickedButton) return;
+
+                const audioSrc = clickedButton.dataset.audioSrc;
+                const icon = clickedButton.querySelector('.material-symbols-outlined');
+                const text = clickedButton.querySelector('.button-text');
+
+                if (currentlyPlayingButton === clickedButton && currentAudio && !currentAudio.paused) {
+                    currentAudio.pause();
+                    return;
+                }
+
+                if (currentAudio) {
+                    currentAudio.pause();
+                    resetPlayButton();
+                }
+
+                if (currentlyPlayingButton === clickedButton && currentAudio) {
+                    currentAudio.play();
+                } else {
+                    currentAudio = new Audio(audioSrc);
+                    currentAudio.addEventListener('ended', () => {
+                        resetPlayButton();
+                        currentAudio = null;
+                        currentlyPlayingButton = null;
+                    });
+                    currentAudio.addEventListener('pause', () => {
+                        resetPlayButton();
+                    });
+                    currentAudio.play().catch(error => {
+                        console.error("Erro ao tentar tocar o áudio:", error);
+                        alert("Não foi possível reproduzir o áudio. Verifique o console para detalhes.");
+                    });
+                }
+
+                if(icon) icon.textContent = 'pause';
+                if(text) text.textContent = 'Pausar áudio';
+                currentlyPlayingButton = clickedButton;
+            });
+
             function handleDestaques() {
                 const destaques = [...iqeData].sort((a, b) => b.iqe - a.iqe).slice(0, 3);
                 let response = "<strong>Municípios com maiores Índices de Qualidade da Educação (IQE):</strong><br><br>";
                 destaques.forEach(mun => {
                     response += `<strong>${mun.nome} (IQE: ${mun.iqe.toFixed(2)})</strong><br>${mun.contexto}<br><br>`;
                 });
+                
+                response += `
+                    <button data-audio-src="audios/destaques.wav" 
+                            class="audio-play-btn mt-4 flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200 transition-colors text-sm cursor-pointer">
+                        <span class="material-symbols-outlined text-base">volume_up</span>
+                        <span class="button-text">Ouvir áudio</span>
+                    </button>
+                `;
                 appendMessage(response, 'bot-message');
             }
-
+            
             function handleCriticos() {
                 const criticos = [...iqeData].sort((a, b) => a.iqe - b.iqe).slice(0, 3);
                 let response = "<strong>Municípios que representam pontos de atenção máxima (IQE mais baixos):</strong><br><br>";
                 criticos.forEach(mun => {
                     response += `<strong>${mun.nome} (IQE: ${mun.iqe.toFixed(2)})</strong><br>${mun.analise}<br><br>`;
                 });
+                
+                response += `
+                    <button data-audio-src="audios/pontos_críticos.wav" 
+                            class="audio-play-btn mt-4 flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200 transition-colors text-sm cursor-pointer">
+                        <span class="material-symbols-outlined text-base">volume_up</span>
+                        <span class="button-text">Ouvir áudio</span>
+                    </button>
+                `;
                 appendMessage(response, 'bot-message');
             }
 
             function handleDecisao(municipioNome) {
                 const normalizeString = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 const nomeNormalizado = normalizeString(municipioNome);
-                
                 const municipio = iqeData.find(m => normalizeString(m.nome) === nomeNormalizado);
                 
                 if (!municipio) {
@@ -733,6 +860,7 @@
 
                 setTimeout(() => processUserInput(userInput), 500);
             });
+            
         });
     </script>
 
