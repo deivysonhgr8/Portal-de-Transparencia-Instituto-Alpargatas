@@ -1,25 +1,101 @@
-# Instituto Alpargatas: Democratizando o Acesso à informação e o Impacto Social
-Este projeto tem como objetivo principal tornar o impacto social do Instituto Alpargatas mais claro e acessível a um público amplo. Para isso, estamos desenvolvendo um portal web interativo que irá evidenciar visualmente os resultados das iniciativas do Instituto.
+# Instituto Alpargatas Transparency Portal
 
-## Sobre o Projeto
-O coração deste projeto é a criação e o cálculo de um Índice de Igualdade de Educação. O portal permitirá aos usuários visualizar e comparar o crescimento desse índice em áreas de atuação do Instituto, utilizando dados operacionais não sensíveis e promovendo a democratização do acesso à informação
+This project describes the development of a **Transparency Portal** for the **Alpargatas Institute**, a non-profit organization focused on improving public education in partner municipalities.
 
-A inovação principal do projeto reside na estratégia de democratização do acesso à informação. A ideia é integrar um QR Code em produtos da Alpargatas (como Havaianas), direcionando os consumidores diretamente para o portal.
+The initiative was created to **democratize access to information** about the Institute’s social impact, following a survey that revealed **75% of a 155-person sample were unaware of the organization and its work**.
 
-## Dependências
-As bibliotecas necessárias para a execução deste projeto estão listadas abaixo:
-- `pandas`: Manipulação e análise de dados.
-- `numpy` : Suporte para operações numéricas.
-- `matplotlib.pyplot`: Geração de gráficos e visualizações.
-- `seaborn`: Criação de visualizações estatísticas.
-- `plotly`: Criação de gráficos interativos
+---
 
-No terminal, rode o código a seguir para instalar as depências do projeto:
+## ✨ Key Features
+
+### 1. Educational Quality Index (IQE)
+
+At the core of the project is the creation of a new multidimensional metric, the **IQE**.
+
+* the IQE is calculated using a **weighted average** of five variables:
+
+  * **Student performance (SAEB)**
+  * **School flow (IDEB)**
+  * **School infrastructure (School Census)**
+  * **Socioeconomic level (INSE)**
+  * **Teacher training (AFD)**
+
+* The weights for each variable were **objectively defined using Factor Analysis**.
+
+---
+
+### 2. Predictive Investment Model
+
+A **machine learning model**, trained on simulated data, was developed to **estimate the return on investment (ROI)** in terms of IQE improvement.
+
+➡️ This tool enables the Institute to make strategic decisions by identifying municipalities with the **highest potential for educational improvement**.
+
+---
+
+### 3. Interactive Web Portal
+
+The portal consolidates all this information into an **interactive web platform**, which includes:
+
+* **Interactive map** displaying IQE scores
+* **Detailed municipal analyses**
+* **Chat interface** allowing natural language queries about the data
+
+---
+
+### 4. Innovative Communication Strategy
+
+The project proposes a communication strategy using **QR Codes on Alpargatas products**, such as Havaianas sandals.
+
+➡️ By scanning the code, consumers are directed to the portal, directly linking their purchase to the educational transformation it supports.
+
+---
+
+## 📦 Dependencies
+
+The project requires the following dependencies:
+
+* requests
+* pandas
+* numpy
+* matplotlib
+* seaborn
+* urllib3
+* plotly
+* openpyxl
+* xlrd
+* scikit-learn
+* factor_analyzer
+* soundfile
+* torch
+* kokoro
+
+### Installation
+
+To install all dependencies, run the following command:
+
 ```bash
 pip install -r requirements.txt
-``` 
+```
 
-## Equipe de desenvolvimento:
-- Deivyson Ribeiro
-- Matheus Blechior
-- ítalo Sousa
+
+## How To use the Script
+- To run the results of the project, you can just open our website: 
+https://portalalpargatas.netlify.app 
+Or open the index.html file in the 'site' Folder.
+- To see How we Create the IQE, you can run the python scripts named 'extract.py' followed by 'transform.py', and then 'iqe.py', and after 'load.py', all in the 'src' folder.
+- To see how we create the predicting model, you can run the script 'generate_simulated_data.py' and then 'investment.py' in the 'src' folder
+---
+
+## 👨‍💻 Developers
+
+This project was developed by:
+
+* Ítalo Oliveira
+* Deivyson Gomes
+* Matheus Belchior
+
+---
+
+## 📌 Note
+
+This project was designed to **strengthen transparency, innovation, and social impact** of the Alpargatas Institute, bringing society and education closer together through technology.
