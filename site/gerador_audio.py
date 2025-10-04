@@ -7,8 +7,7 @@ from kokoro import KPipeline
 # --- Configurações Iniciais ---
 
 
-output_dir = 'audios'
-os.makedirs(output_dir, exist_ok=True)
+output_dir = 'site/audios'
 lang_code = 'p'
 pipeline = KPipeline(lang_code=lang_code)
 voice_model = 'pf_dora'
