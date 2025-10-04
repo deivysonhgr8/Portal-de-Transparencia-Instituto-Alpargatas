@@ -68,6 +68,8 @@ The project requires the following dependencies:
 * soundfile
 * torch
 * kokoro
+* urllib3
+* lightgbm
 
 ### Installation
 

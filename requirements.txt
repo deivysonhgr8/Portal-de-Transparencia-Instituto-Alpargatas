@@ -12,3 +12,5 @@ factor_analyzer==0.5.1
 soundfile==0.13.1
 torch==2.8.0
 kokoro==0.9.4
+urllib3==2.5.0
+lightgbm==4.6.0
