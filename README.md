@@ -92,8 +92,8 @@ Or open the index.html file in the 'site' Folder.
 
 This project was developed by:
 
-* Ítalo Oliveira
 * Deivyson Gomes
+* Ítalo Oliveira
 * Matheus Belchior
 
 ---
